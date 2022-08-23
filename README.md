@@ -19,8 +19,9 @@ Sales role:
 
 These users and roles are used across the [shopping-api](https://github.com/shopping-api) modules to allow access in specific endpoints and provides secured API.
 
-<span style="color: red">Important</span>: Never storage plain text users and passwords in a repo, mainly in a public repo. 
-This is here for documentation purpose in case of someone wants to run it in a local environment, and this is a portfolio project, so it will be useful to have default users to be used.
+
+| IMPORTANT: Never storage plain text users and passwords in a repo, mainly in a public repo. This is here for documentation purpose in case of someone wants to run it in a local environment, and this is a portfolio project, so it will be useful to have default users to be used. |
+|-------------------------------------------------------------------------------------------------------------------------------| 
 
 ## How to run
 
@@ -30,3 +31,5 @@ For Keycloak instance only, runs docker compose command:
 ```shell
 docker-compose up
 ```
+
+To run the entire project, see [docker-local-setup](https://github.com/shopping-api/docker-local-setup)
