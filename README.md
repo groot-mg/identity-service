@@ -25,11 +25,4 @@ These users and roles are used across the [shopping-api](https://github.com/shop
 
 ## How to run
 
-Required `docker` and `docker-compose`.
-
-For Keycloak instance only, runs docker compose command:
-```shell
-docker-compose up
-```
-
-To run the entire project, see [docker-local-setup](https://github.com/shopping-api/docker-local-setup)
+See [Wiki](https://github.com/shopping-api/identity-service/wiki/Keycloak#how-to-run).
