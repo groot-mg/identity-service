@@ -7,8 +7,8 @@ services:
     restart: always
     ports:
       - "8180:8080"
-#    volumes:
-#      - ./keycloak/backup:/opt/keycloak/data/h2
+    volumes:
+      - ./keycloak/backup:/opt/keycloak/data/h2
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
