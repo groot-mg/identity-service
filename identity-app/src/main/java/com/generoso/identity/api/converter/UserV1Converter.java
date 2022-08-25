@@ -4,6 +4,8 @@ import com.generoso.identity.api.dto.UserV1Dto;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 @Component
 public class UserV1Converter {
 
@@ -13,6 +15,7 @@ public class UserV1Converter {
         user.setFirstName(userV1Dto.firstName());
         user.setLastName(userV1Dto.lastName());
         user.setEmail(userV1Dto.email());
+        user.setGroups(Collections.singletonList(userV1Dto.userType().getGroupName()));
         return user;
     }
 
