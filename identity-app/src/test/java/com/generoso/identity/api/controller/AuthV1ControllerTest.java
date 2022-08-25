@@ -119,7 +119,8 @@ class AuthV1ControllerTest {
         var errorDetails = objectMapper.readValue(responseBody, ValidationErrorDetails.class);
         assertThat(errorDetails.getStatus()).isEqualTo(400);
         assertThat(errorDetails.getError()).isEqualTo("Field validation error");
-        assertThat(errorDetails.getField()).isEqualTo("username, password");
-        assertThat(errorDetails.getFieldMessage()).isEqualTo("username should be provided, password should be provided");
+        assertThat(errorDetails.getField()).contains("username").contains(",").contains("password");
+        assertThat(errorDetails.getFieldMessage()).contains("username should be provided").contains(",")
+                .contains("password should be provided");
     }
 }
