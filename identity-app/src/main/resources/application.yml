@@ -11,11 +11,9 @@ server:
 
 keycloak:
   server-url: http://localhost:8180
-  realm: shopping-api
-  client-id: demo-client
-  client-secret: ZhVCiZ3pyKwxWcXh5K7wC4fcnSTP3YGC
-  username: admin
-  password: admin
+  realm: changeme
+  client-id: changeme
+  client-secret: changeme
 
 management:
   endpoint:

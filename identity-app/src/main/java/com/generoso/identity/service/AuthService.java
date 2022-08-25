@@ -4,6 +4,7 @@ import com.generoso.identity.config.properties.KeycloakProperties;
 import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.model.Downstream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Config;
 import org.keycloak.admin.client.token.TokenManager;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.ProcessingException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthService {
@@ -28,6 +30,7 @@ public class AuthService {
             var tokenManager = new TokenManager(config, resteasyClient);
             return tokenManager.getAccessToken();
         } catch (ProcessingException ex) {
+            log.error("Error sending login request: {}", ex.getMessage());
             throw new DownstreamException(Downstream.KEYCLOAK);
         } catch (NotAuthorizedException ex) {
             throw new NotAuthorizedException("Wrong username or password", ex);

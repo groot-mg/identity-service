@@ -4,7 +4,7 @@ services:
   keycloak:
     container_name: keycloak
     build: keycloak
-    restart: always
+    restart: unless-stopped
     ports:
       - "8180:8080"
     volumes:
@@ -14,6 +14,27 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
     healthcheck:
       test: "curl --fail --silent http://localhost:8080/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  identity-service:
+    container_name: identity-app
+    build: identity-app
+    restart: always
+    ports:
+      - "8181:8181"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - KEYCLOAK_SERVERURL=http://keycloak:8080
+      - KEYCLOAK_REALM=shopping-api
+      - KEYCLOAK_CLIENTID=demo-client
+      - KEYCLOAK_CLIENTSECRET=ZhVCiZ3pyKwxWcXh5K7wC4fcnSTP3YGC
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8181/private/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5

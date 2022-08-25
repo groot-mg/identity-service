@@ -31,6 +31,7 @@ public class UserService {
         try (var response = usersResource.create(user)) {
             log.info("Created user {}", user.getUsername());
         } catch (ProcessingException ex) {
+            log.error("Error sending request to create a new user: {}", ex.getMessage());
             throw new DownstreamException(Downstream.KEYCLOAK);
         }
     }
