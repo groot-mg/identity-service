@@ -7,10 +7,6 @@ Keycloak is an Open Source Identity and Access Management. It is used on this pr
 ## Local environment
 For local environment, keycloak loads pre-configured users:
 
-Admin role:
-- user: admin
-- password: admin
-
 Client role:
 - user: client
 - password: client
