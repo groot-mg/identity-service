@@ -9,6 +9,17 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+ext {
+    keycloakAdminClientVersion = '19.0.1'
+    openApiVersion = '1.6.10'
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -47,8 +58,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.keycloak:keycloak-admin-client:19.0.1'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.10'
+    implementation "org.keycloak:keycloak-admin-client:${keycloakAdminClientVersion}"
+    implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
 
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
@@ -57,4 +68,20 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+test.finalizedBy jacocoTestReport
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "com/generoso/identity/IdentityApplication.class"
+            ])
+        }))
+    }
+    reports {
+        xml.enabled true
+    }
 }
