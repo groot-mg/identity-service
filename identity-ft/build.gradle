@@ -1,0 +1,58 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id "io.freefair.lombok"
+    id 'java'
+}
+
+ext {
+    cucumberVersion = '7.6.0'
+    jacksonDataBinding = '2.13.3'
+    wiremockStandalone = '2.33.2'
+    googleGuavaVersion = '31.1-jre'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation project(":identity-app")
+
+    testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+
+    testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDataBinding}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "com.google.guava:guava:31.1-jre"
+    testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}"
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber {
+    def profile = findProperty("spring.profiles.active") ?: "local"
+    dependsOn processTestResources, compileTestJava
+
+    doLast {
+        javaexec {
+            systemProperties = ['spring.profiles.active': profile]
+            main = "io.cucumber.core.cli.Main"
+            classpath = project.sourceSets.test.runtimeClasspath
+            args = ['--tags', 'not @ignore',
+                    '--plugin', 'pretty',
+                    '--plugin', 'html:reports/report.html',
+                    '--glue', 'com.generoso.ft.identity',
+                    'classpath:features']
+        }
+    }
+}
+
+bootJar.enabled = false
+jar.enabled = false

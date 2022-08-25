@@ -5,10 +5,12 @@ on:
     branches: [ main ]
     paths:
       - identity-app/*
+      - identity-ft/*
   pull_request:
     branches: [ main ]
     paths:
       - identity-app/*
+      - identity-ft/*
   workflow_dispatch:
     inputs:
       logLevel:
@@ -45,3 +47,5 @@ jobs:
           distribution: 'zulu'
       - name: Run unit tests
         run: ./gradlew --no-daemon :identity-app:test
+      - name: Run functional tests
+        run: ./gradlew --no-daemon :identity-ft:cucumber

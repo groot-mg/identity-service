@@ -1,3 +1,4 @@
 rootProject.name = 'identity-service'
 include 'identity-app'
+include 'identity-ft'
 

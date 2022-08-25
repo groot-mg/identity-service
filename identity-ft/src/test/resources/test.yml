@@ -1,0 +1,14 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: identity-ft
+  profiles:
+    active: local
+
+service:
+  host: http://localhost:8181/identity
+
+wiremock:
+  host: localhost
+  port: 8081
