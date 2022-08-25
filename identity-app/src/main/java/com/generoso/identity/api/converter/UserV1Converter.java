@@ -12,17 +12,15 @@ public class UserV1Converter {
         user.setUsername(userV1Dto.username());
         user.setFirstName(userV1Dto.firstName());
         user.setLastName(userV1Dto.lastName());
-        user.setEmail(userV1Dto.emailId());
+        user.setEmail(userV1Dto.email());
         return user;
     }
 
     public UserV1Dto convertToDto(UserRepresentation user) {
-        return new UserV1Dto(
-                user.getUsername(),
-                user.getEmail(),
-                null,
-                user.getFirstName(),
-                user.getLastName()
-        );
+        return UserV1Dto.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName()).build();
     }
 }

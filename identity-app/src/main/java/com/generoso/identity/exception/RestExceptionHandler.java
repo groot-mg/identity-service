@@ -73,27 +73,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, status);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorDetail> handleValidationException(ValidationException exception) {
+        var status = HttpStatus.BAD_REQUEST;
+        var errorDetails = ErrorDetail.builder()
+                .status(status.value())
+                .error("Validation error")
+                .detail(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDetails, status);
+    }
 
-    // review if these exceptions are useful from here to bottom
-//    @ExceptionHandler(RequestException.class)
-//    public ResponseEntity<ErrorDetail> handleRequestException(RequestException requestException) {
-//        var status = HttpStatus.valueOf(requestException.getStatusCode());
-//        var errorDetail = ErrorDetail.builder()
-//                .status(status.value())
-//                .error("Request exception")
-//                .detail(requestException.getMessage())
-//                .build();
-//        return new ResponseEntity<>(errorDetail, status);
-//    }
-//
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException exception) {
-//        var status = HttpStatus.NOT_FOUND;
-//        var errorDetails = ErrorDetail.builder()
-//                .status(status.value())
-//                .error("Resource Not Found")
-//                .detail(exception.getMessage())
-//                .build();
-//        return new ResponseEntity<>(errorDetails, status);
-//    }
+    @ExceptionHandler(RequestException.class)
+    public ResponseEntity<ErrorDetail> handleRequestException(RequestException requestException) {
+        var status = HttpStatus.valueOf(requestException.getStatusCode());
+        var errorDetail = ErrorDetail.builder()
+                .status(status.value())
+                .error("Downstream request exception")
+                .detail(requestException.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDetail, status);
+    }
 }

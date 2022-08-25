@@ -116,6 +116,46 @@ class RestExceptionHandlerTest {
         assertThat(body.getDetail()).isEqualTo(exceptionMessage);
     }
 
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldReturnExpectedFieldsOnHandleValidationException() {
+        // arrange
+        var exceptionMessage = "validation message";
+        var exception = new ValidationException(exceptionMessage);
+        var status = HttpStatus.BAD_REQUEST;
+
+        // Act
+        var response = handler.handleValidationException(exception);
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(status);
+
+        var body = response.getBody();
+        assertThat(body.getStatus()).isEqualTo(status.value());
+        assertThat(body.getError()).isEqualTo("Validation error");
+        assertThat(body.getDetail()).isEqualTo(exceptionMessage);
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldReturnExpectedFieldsOnHandleRequestException() {
+        // arrange
+        var exceptionMessage = "request exception message";
+        var expectedStatus = HttpStatus.UNAUTHORIZED;
+        var exception = new RequestException(exceptionMessage, expectedStatus.value());
+
+        // Act
+        var response = handler.handleRequestException(exception);
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatus);
+
+        var body = response.getBody();
+        assertThat(body.getStatus()).isEqualTo(expectedStatus.value());
+        assertThat(body.getError()).isEqualTo("Downstream request exception");
+        assertThat(body.getDetail()).isEqualTo(exceptionMessage);
+    }
+
     private static Stream<Arguments> provideMessageValidationsToTest() {
         var bindResult1 = new MapBindingResult(new HashMap<>(), "objectName");
         var error1 = new FieldError("objectName", "username", "must not be null");
