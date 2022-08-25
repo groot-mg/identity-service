@@ -62,6 +62,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, status);
     }
 
+    @ExceptionHandler(DownstreamException.class)
+    public ResponseEntity<ErrorDetail> handleDownstreamException(DownstreamException exception) {
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        var errorDetails = ErrorDetail.builder()
+                .status(status.value())
+                .error("Error connection to a downstream")
+                .detail(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDetails, status);
+    }
+
 
     // review if these exceptions are useful from here to bottom
 //    @ExceptionHandler(RequestException.class)

@@ -2,11 +2,11 @@ package com.generoso.identity.exception;
 
 import com.generoso.identity.exception.error.ErrorDetail;
 import com.generoso.identity.exception.error.ValidationErrorDetails;
+import com.generoso.identity.model.Downstream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -93,6 +93,26 @@ class RestExceptionHandlerTest {
         var body = response.getBody();
         assertThat(body.getStatus()).isEqualTo(status.value());
         assertThat(body.getError()).isEqualTo("Unauthorized");
+        assertThat(body.getDetail()).isEqualTo(exceptionMessage);
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldReturnExpectedFieldsOnHandleDownstreamException() {
+        // arrange
+        var exceptionMessage = "Downstream down: KEYCLOAK";
+        var exception = new DownstreamException(Downstream.KEYCLOAK);
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        // Act
+        var response = handler.handleDownstreamException(exception);
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(status);
+
+        var body = response.getBody();
+        assertThat(body.getStatus()).isEqualTo(status.value());
+        assertThat(body.getError()).isEqualTo("Error connection to a downstream");
         assertThat(body.getDetail()).isEqualTo(exceptionMessage);
     }
 
