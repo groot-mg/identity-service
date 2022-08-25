@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class ErrorDetail extends ErrorDetailModel {
 
     @Builder
-    public ErrorDetail(String title, int status, String detail, LocalDateTime localDateTime) {
-        super(title, status, detail, localDateTime);
+    public ErrorDetail(String error, int status, String detail) {
+        super(LocalDateTime.now(), status, error, detail);
     }
 }

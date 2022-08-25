@@ -1,16 +1,21 @@
 package com.generoso.identity.exception;
 
 import com.generoso.identity.exception.error.ErrorDetail;
+import com.generoso.identity.exception.error.ValidationErrorDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.ws.rs.NotAuthorizedException;
+import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -19,42 +24,65 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception exception, Object body,
                                                              HttpHeaders headers, HttpStatus status,
                                                              WebRequest request) {
-        //@formatter:off
         var errorDetail = ErrorDetail.builder()
-                .localDateTime(LocalDateTime.now())
                 .status(status.value())
-                .title("Internal Exception")
+                .error("Internal Exception")
                 .detail(exception.getMessage())
                 .build();
-        //@formatter:on
         return new ResponseEntity<>(errorDetail, headers, status);
     }
 
-    @ExceptionHandler(RequestException.class)
-    public ResponseEntity<ErrorDetail> handleRequestException(RequestException requestException) {
-        ;
-        //@formatter:off
-        var errorDetail = ErrorDetail.builder()
-                .localDateTime(LocalDateTime.now())
-                .status(requestException.getStatusCode())
-                .title("Request exception")
-                .detail(requestException.getMessage())
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
+                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
+        var fieldErrors = exception.getBindingResult().getFieldErrors();
+        var fields = fieldErrors.stream().map(FieldError::getField)
+                .collect(Collectors.joining(", "));
+        var fieldMessages = fieldErrors.stream()
+                .map(fieldError -> format("%s %s", fieldError.getField(), fieldError.getDefaultMessage()))
+                .collect(Collectors.joining(", "));
+
+        var errorDetails = ValidationErrorDetails.builder()
+                .status(status.value())
+                .error("Field validation error")
+                .field(fields)
+                .fieldMessage(fieldMessages)
                 .build();
-        //@formatter:on
-        return new ResponseEntity<>(errorDetail, HttpStatus.valueOf(requestException.getStatusCode()));
+        return new ResponseEntity<>(errorDetails, headers, status);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException rfnException) {
-        var status = HttpStatus.NOT_FOUND;
-        //@formatter:off
-        var details = ErrorDetail.builder()
-                .localDateTime(LocalDateTime.now())
+    @ExceptionHandler(NotAuthorizedException.class)
+    public ResponseEntity<ErrorDetail> handleNotAuthorizedException(NotAuthorizedException exception) {
+        var status = HttpStatus.UNAUTHORIZED;
+        var errorDetails = ErrorDetail.builder()
                 .status(status.value())
-                .title("Resource Not Found")
-                .detail(rfnException.getMessage())
+                .error("Unauthorized")
+                .detail(exception.getMessage())
                 .build();
-        //@formatter:on
-        return new ResponseEntity<>(details, status);
+        return new ResponseEntity<>(errorDetails, status);
     }
+
+
+    // review if these exceptions are useful from here to bottom
+//    @ExceptionHandler(RequestException.class)
+//    public ResponseEntity<ErrorDetail> handleRequestException(RequestException requestException) {
+//        var status = HttpStatus.valueOf(requestException.getStatusCode());
+//        var errorDetail = ErrorDetail.builder()
+//                .status(status.value())
+//                .error("Request exception")
+//                .detail(requestException.getMessage())
+//                .build();
+//        return new ResponseEntity<>(errorDetail, status);
+//    }
+//
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException exception) {
+//        var status = HttpStatus.NOT_FOUND;
+//        var errorDetails = ErrorDetail.builder()
+//                .status(status.value())
+//                .error("Resource Not Found")
+//                .detail(exception.getMessage())
+//                .build();
+//        return new ResponseEntity<>(errorDetails, status);
+//    }
 }
