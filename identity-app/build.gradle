@@ -24,6 +24,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
 scmVersion {
     tag { prefix = rootProject.name + '-' }
     versionIncrementer 'incrementMinor'

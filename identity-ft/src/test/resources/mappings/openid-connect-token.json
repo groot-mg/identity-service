@@ -1,0 +1,37 @@
+{
+  "mappings": [
+    {
+      "id": "81d30d73-4925-4f89-80ef-0da0e375d311",
+      "scenarioName": "User login",
+      "requiredScenarioState": "Started",
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/realms/.*/protocol/openid-connect/token",
+        "bodyPatterns": [
+          {
+            "matches": ".*username.*"
+          },
+          {
+            "matches": ".*password.*"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxTUx6Tk1iMG01UUx6dEtDSWNVc3phQk9IS0ZPcGhxYTRBTmxTT241VnQ4In0.eyJleHAiOjE2NjE0NTk3ODEsImlhdCI6MTY2MTQ1OTQ4MSwianRpIjoiYzQ5YzcyNDMtOTFmNC00MmIzLTlhYWYtMTM2MTY3ODBjYWJmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL3JlYWxtcy9zaG9wcGluZy1hcGkiLCJhdWQiOlsicmVhbG0tbWFuYWdlbWVudCIsImFjY291bnQiXSwic3ViIjoiYWFjZWViOTMtYTIxNi00MTE3LWI1NTktZmQ4NWY2YjFhN2FlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZGVtby1jbGllbnQiLCJzZXNzaW9uX3N0YXRlIjoiOWVjZjJiNzQtZDYzMC00YjMxLTg4ZTQtNDdhNmZjMjg2ZDlkIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXNob3BwaW5nLWFwaSIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWFsbS1tYW5hZ2VtZW50Ijp7InJvbGVzIjpbIm1hbmFnZS11c2VycyIsInZpZXctdXNlcnMiLCJxdWVyeS1ncm91cHMiLCJxdWVyeS11c2VycyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiOWVjZjJiNzQtZDYzMC00YjMxLTg4ZTQtNDdhNmZjMjg2ZDlkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJBZG1pbiBuYW1lIEFkbWluIGxhc3RuYW1lIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4gbmFtZSIsImZhbWlseV9uYW1lIjoiQWRtaW4gbGFzdG5hbWUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.mEC7SOYK9apbYwdsrIzpOdumoX9Y8O3vi3X4Mm7V9JRdFKngWAF84x54-uX889lULpPC9mPGn3DAWMldIWSFOSI5OUAB4q80KyXpaYIvtTRN3QCoj-FvEe3zj1944ner5eeGPgH8fRirGj8tdB5be5KONznMuxUqzkHBF3tBBTCCmybCpBPtATyh5kjVY5IUflp98SAwSHM5zowMF9j5bnxAtTTmTEWpdq6y6RvvTmEONwy7x42SiLFSejWTLcvv_rc8zaYWa5a-WoNRGDN5dYTBmkuioyqejSOburhKzIS6IvN88QWZLs9LWBb6zIS6k4Q_Z_8MhQwlNEpFetmuDg",
+          "expires_in": 300,
+          "refresh_expires_in": 1800,
+          "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwNjNmOTZlZi02MTAwLTRmY2MtYWZiYi0yODk2MDExNTVhOTkifQ.eyJleHAiOjE2NjE0NjEyODEsImlhdCI6MTY2MTQ1OTQ4MSwianRpIjoiNGJiNzQ0NjYtMzRiMS00NmNjLTkxNTItMDdlMGQ4MDRiNDQ1IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL3JlYWxtcy9zaG9wcGluZy1hcGkiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgxODAvcmVhbG1zL3Nob3BwaW5nLWFwaSIsInN1YiI6ImFhY2VlYjkzLWEyMTYtNDExNy1iNTU5LWZkODVmNmIxYTdhZSIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJkZW1vLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiI5ZWNmMmI3NC1kNjMwLTRiMzEtODhlNC00N2E2ZmMyODZkOWQiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiI5ZWNmMmI3NC1kNjMwLTRiMzEtODhlNC00N2E2ZmMyODZkOWQifQ.wdsGj7EJPK-mTLijEPvQNaHxC2I3kKtnDscs2NOnMvY",
+          "token_type": "Bearer",
+          "not-before-policy": 0,
+          "session_state": "9ecf2b74-d630-4b31-88e4-47a6fc286d9d",
+          "scope": "email profile"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

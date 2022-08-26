@@ -7,8 +7,9 @@ spring:
     active: local
 
 service:
-  host: http://localhost:8181/identity
+  host: http://localhost:8181
+#  context-path: /identity
 
 wiremock:
   host: localhost
-  port: 8081
+  port: 8180

@@ -11,6 +11,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;
 import java.util.Collections;
 
@@ -30,7 +31,7 @@ public class UserService {
         user.setEnabled(true);
         try (var response = usersResource.create(user)) {
             log.info("Created user {}", user.getUsername());
-        } catch (ProcessingException ex) {
+        } catch (ProcessingException | InternalServerErrorException ex) {
             log.error("Error sending request to create a new user: {}", ex.getMessage());
             throw new DownstreamException(Downstream.KEYCLOAK);
         }

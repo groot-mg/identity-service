@@ -6,8 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(classes = {
         TestConfiguration.class,
-        LocalIdentityService.class,
-        LocalWiremockServer.class
+        LocalIdentityService.class
 },
         initializers = YamlFileApplicationContextInitializer.class)
 @CucumberContextConfiguration

@@ -12,6 +12,7 @@ import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.ProcessingException;
 
@@ -29,7 +30,7 @@ public class AuthService {
         try {
             var tokenManager = new TokenManager(config, resteasyClient);
             return tokenManager.getAccessToken();
-        } catch (ProcessingException ex) {
+        } catch (ProcessingException | InternalServerErrorException ex) {
             log.error("Error sending login request: {}", ex.getMessage());
             throw new DownstreamException(Downstream.KEYCLOAK);
         } catch (NotAuthorizedException ex) {

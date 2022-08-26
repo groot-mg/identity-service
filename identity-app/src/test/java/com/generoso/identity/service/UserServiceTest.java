@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,6 +53,25 @@ class UserServiceTest {
         var user = new UserRepresentation();
 
         when(usersResource.create(user)).thenThrow(new ProcessingException(""));
+
+        // Act
+        var exception = assertThrows(DownstreamException.class,
+                () -> service.createUser(user, password, repeatPassword));
+
+        // Assert
+        verify(passwordValidator).validate(password, repeatPassword);
+        verify(usersResource).create(user);
+        assertThat(exception.getMessage()).isEqualTo("Downstream down: KEYCLOAK");
+    }
+
+    @Test
+    void shouldThrowsDownstreamExceptionWhenInternalServerErrorExceptionHappens() {
+        // Arrange
+        var password = "password";
+        var repeatPassword = "password";
+        var user = new UserRepresentation();
+
+        when(usersResource.create(user)).thenThrow(new InternalServerErrorException(""));
 
         // Act
         var exception = assertThrows(DownstreamException.class,

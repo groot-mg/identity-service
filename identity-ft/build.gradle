@@ -10,6 +10,7 @@ ext {
     jacksonDataBinding = '2.13.3'
     wiremockStandalone = '2.33.2'
     googleGuavaVersion = '31.1-jre'
+    prometheusScraperVersion = '0.23.0.Final'
 }
 
 repositories {
@@ -24,6 +25,8 @@ dependencies {
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
 
     testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDataBinding}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDataBinding}"
+    testImplementation "org.hawkular.agent:prometheus-scraper:${prometheusScraperVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "com.google.guava:guava:31.1-jre"
