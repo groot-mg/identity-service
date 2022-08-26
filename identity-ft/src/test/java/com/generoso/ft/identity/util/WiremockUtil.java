@@ -23,6 +23,7 @@ public class WiremockUtil {
 
     private static final Map<String, UUID> FRIENDLY_DOWNSTREAM_NAME_UUIDS = ImmutableMap.<String, UUID>builder()
             .put("keycloak-auth", fromString("81d30d73-4925-4f89-80ef-0da0e375d311"))
+            .put("keycloak-create-user", fromString("39e6b2dc-ab78-4762-9cc2-2ccc09ec2c9f"))
             .build();
 
     private final HttpAdminClient wiremockClient;

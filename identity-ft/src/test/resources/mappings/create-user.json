@@ -1,0 +1,21 @@
+{
+  "mappings": [
+    {
+      "id": "39e6b2dc-ab78-4762-9cc2-2ccc09ec2c9f",
+      "scenarioName": "Create user",
+      "requiredScenarioState": "Started",
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/admin/realms/.*/users",
+        "headers": {
+          "Content-Type": {
+            "equalTo": "application/json"
+          }
+        }
+      },
+      "response": {
+        "status": 201
+      }
+    }
+  ]
+}

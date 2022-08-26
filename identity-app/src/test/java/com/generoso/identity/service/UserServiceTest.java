@@ -1,7 +1,9 @@
 package com.generoso.identity.service;
 
 import com.generoso.identity.exception.DownstreamException;
+import com.generoso.identity.exception.RequestException;
 import com.generoso.identity.service.validation.PasswordValidator;
+import org.jboss.resteasy.core.ServerResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -37,12 +39,55 @@ class UserServiceTest {
         var repeatPassword = "password";
         var user = new UserRepresentation();
 
+        when(usersResource.create(user)).thenReturn(
+                new ServerResponse(null, 201, null));
+
         // Act
         service.createUser(user, password, repeatPassword);
 
         // Assert
         verify(passwordValidator).validate(password, repeatPassword);
         verify(usersResource).create(user);
+    }
+
+    @Test
+    void whenResponseGets404StatusCode_throwsRequestExceptionWithExpectedMessage() {
+        // Arrange
+        var password = "password";
+        var repeatPassword = "password";
+        var user = new UserRepresentation();
+
+        when(usersResource.create(user)).thenReturn(
+                new ServerResponse(null, 409, null));
+
+        // Act
+        var exception = assertThrows(RequestException.class,
+                () -> service.createUser(user, password, repeatPassword));
+
+        // Assert
+        verify(passwordValidator).validate(password, repeatPassword);
+        verify(usersResource).create(user);
+        assertThat(exception.getMessage()).isEqualTo("Duplicated user");
+    }
+
+    @Test
+    void whenResponseGets500StatusCode_throwsRequestExceptionWithExpectedMessage() {
+        // Arrange
+        var password = "password";
+        var repeatPassword = "password";
+        var user = new UserRepresentation();
+
+        when(usersResource.create(user)).thenReturn(
+                new ServerResponse(null, 500, null));
+
+        // Act
+        var exception = assertThrows(DownstreamException.class,
+                () -> service.createUser(user, password, repeatPassword));
+
+        // Assert
+        verify(passwordValidator).validate(password, repeatPassword);
+        verify(usersResource).create(user);
+        assertThat(exception.getMessage()).isEqualTo("Downstream down: KEYCLOAK");
     }
 
     @Test

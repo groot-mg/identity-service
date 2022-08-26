@@ -10,8 +10,8 @@ public class WiremockStepDefinitions {
 
     private final WiremockUtil wiremockUtil;
 
-    @And("{} is primed to return 500 response status code")
-    public void priceBasketIsPrimedToReturn500(String downstream) {
-        wiremockUtil.primeResponseWithBody(downstream, wiremockUtil.buildErrorResponse(500).build());
+    @And("{} is primed to return {int} response status code")
+    public void priceBasketIsPrimedToReturn500(String downstream, int statusCode) {
+        wiremockUtil.primeResponseWithBody(downstream, wiremockUtil.buildErrorResponse(statusCode).build());
     }
 }

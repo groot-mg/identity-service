@@ -22,10 +22,10 @@ Feature: Checking auth endpoint scenarios
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 400 has incremented by 1
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 500 has incremented by 0
     Examples:
-      | BODY                         | STATUS | ERROR                  | FIELD              | FIELD_MESSAGE                                            |
-      | {"password":"12345"}         | 400    | Field validation error | username           | username should be provided                              |
-      | {"username":"test-username"} | 400    | Field validation error | password           | password should be provided                              |
-      | {}                           | 400    | Field validation error | password, username | password should be provided, username should be provided |
+      | BODY                         | STATUS | ERROR                  | FIELD             | FIELD_MESSAGE                                        |
+      | {"password":"12345"}         | 400    | Field validation error | username          | username must not be null                            |
+      | {"username":"test-username"} | 400    | Field validation error | password          | password must not be null                            |
+      | {}                           | 400    | Field validation error | password,username | password must not be null, username must not be null |
 
   Scenario: When keycloak is down, login error response is returned as expected
     Given an endpoint AUTH_LOGIN is prepared with body {"username":"test-username","password":"12345"}
