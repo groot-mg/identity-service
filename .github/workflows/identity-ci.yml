@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - identity-app/*
-      - identity-ft/*
+      - identity-app/**
+      - identity-ft/**
   pull_request:
     branches: [ main ]
     paths:
-      - identity-app/*
-      - identity-ft/*
+      - identity-app/**
+      - identity-ft/**
   workflow_dispatch:
     inputs:
       logLevel:
