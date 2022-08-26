@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,6 @@ public class UserV1Controller {
     public ResponseEntity<Void> createUser(@Valid @RequestBody UserV1Dto userV1Dto) {
         var user = converter.convertToEntity(userV1Dto);
         service.createUser(user, userV1Dto.password(), userV1Dto.repeatPassword());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

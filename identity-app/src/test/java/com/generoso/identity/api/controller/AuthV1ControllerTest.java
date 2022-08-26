@@ -1,13 +1,12 @@
 package com.generoso.identity.api.controller;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.generoso.identity.api.dto.LoginV1Dto;
-import com.generoso.identity.exception.error.ValidationErrorDetails;
 import com.generoso.identity.service.AuthService;
+import com.generoso.identity.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -27,13 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthV1ControllerTest {
 
     private static final String CONTROLLER_MAPPING = "/v1/auth";
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    static {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
+    @Autowired
+    private JsonUtils jsonUtils;
+
+    @Autowired
+    private CommonControllerTest commonControllerTest;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,7 +55,7 @@ class AuthV1ControllerTest {
         // Act
         var result = this.mockMvc.perform(post(CONTROLLER_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userDto)))
+                        .content(jsonUtils.asString(userDto)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -66,61 +66,30 @@ class AuthV1ControllerTest {
                 {"tokenType":"Bearer","token":"token"}""");
     }
 
-    @Test
-    void whenUsernameIsMissing_shouldReturn400Response() throws Exception {
-        // Act
-        var result = this.mockMvc.perform(post(CONTROLLER_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"password\":\"password\"}"))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-
-        // Assert
-        var responseBody = result.getResponse().getContentAsString();
-        var errorDetails = objectMapper.readValue(responseBody, ValidationErrorDetails.class);
-        assertThat(errorDetails.getStatus()).isEqualTo(400);
-        assertThat(errorDetails.getError()).isEqualTo("Field validation error");
-        assertThat(errorDetails.getField()).isEqualTo("username");
-        assertThat(errorDetails.getFieldMessage()).isEqualTo("username should be provided");
+    @MethodSource("provideInputsToTestMissingField")
+    @ParameterizedTest
+    void whenFieldsAreMissing_shouldReturn400Response(String jsonBody, String field, String fieldMessage) throws Exception {
+        commonControllerTest.testWhenFieldsAreMissingAndShouldReturn400Response(CONTROLLER_MAPPING, jsonBody,
+                field, fieldMessage);
     }
 
-    @Test
-    void whenPasswordIsMissing_shouldReturn400Response() throws Exception {
-        // Act
-        var result = this.mockMvc.perform(post(CONTROLLER_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"username\"}"))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-
-        // Assert
-        var responseBody = result.getResponse().getContentAsString();
-        var errorDetails = objectMapper.readValue(responseBody, ValidationErrorDetails.class);
-        assertThat(errorDetails.getStatus()).isEqualTo(400);
-        assertThat(errorDetails.getError()).isEqualTo("Field validation error");
-        assertThat(errorDetails.getField()).isEqualTo("password");
-        assertThat(errorDetails.getFieldMessage()).isEqualTo("password should be provided");
-    }
-
-    @Test
-    void whenUsernameAndPasswordAreMissing_shouldReturn400Response() throws Exception {
-        // Act
-        var result = this.mockMvc.perform(post(CONTROLLER_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-
-        // Assert
-        var responseBody = result.getResponse().getContentAsString();
-        var errorDetails = objectMapper.readValue(responseBody, ValidationErrorDetails.class);
-        assertThat(errorDetails.getStatus()).isEqualTo(400);
-        assertThat(errorDetails.getError()).isEqualTo("Field validation error");
-        assertThat(errorDetails.getField()).contains("username").contains(",").contains("password");
-        assertThat(errorDetails.getFieldMessage()).contains("username should be provided").contains(",")
-                .contains("password should be provided");
+    private static Stream<Arguments> provideInputsToTestMissingField() {
+        return Stream.of(
+                Arguments.of("""
+                                {"password":"password"}""",
+                        "username",
+                        "username must not be null"
+                ),
+                Arguments.of("""
+                                {"username":"username"}""",
+                        "password",
+                        "password must not be null"
+                ),
+                Arguments.of("""
+                                {}""",
+                        "password,username",
+                        "password must not be null,username must not be null"
+                )
+        );
     }
 }

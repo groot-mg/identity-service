@@ -29,13 +29,13 @@ public class ResponseStepDefinitions {
         var validationObj = jsonMapper.fromJson(response.body(), ValidationErrorDetails.class);
 
         var fieldSplit = field.split(",");
-        var fieldMessageSplit = field.split(",");
+        var fieldMessageSplit = fieldMessage.split(",");
 
         assertThat(validationObj.getStatus()).isEqualTo(status);
         assertThat(validationObj.getError()).isEqualTo(error);
         stream(fieldSplit).forEach(fieldValue -> assertThat(validationObj.getField()).contains(fieldValue));
         stream(fieldMessageSplit).forEach(
-                fieldMessageValue -> assertThat(validationObj.getField()).contains(fieldMessageValue));
+                fieldMessageValue -> assertThat(validationObj.getFieldMessage()).contains(fieldMessageValue));
         assertThat(validationObj.getTimestamp()).isNotNull();
     }
 

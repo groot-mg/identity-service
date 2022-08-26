@@ -9,5 +9,5 @@ public enum UserType {
     CLIENT("Clients"),
     SALES("Sales");
 
-    private String groupName;
+    private final String groupName;
 }
