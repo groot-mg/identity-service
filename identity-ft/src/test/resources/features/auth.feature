@@ -12,7 +12,7 @@ Feature: Checking auth endpoint scenarios
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 400 has incremented by 0
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 500 has incremented by 0
 
-  Scenario Outline: When username is not provided, 400 response status code is given with expected message
+  Scenario Outline: When a field is not provided, 400 response status code is given with expected message
     Given an endpoint AUTH_LOGIN is prepared with body <BODY>
     When the request is sent
     Then the response status code should be 400
@@ -25,7 +25,7 @@ Feature: Checking auth endpoint scenarios
       | BODY                         | STATUS | ERROR                  | FIELD             | FIELD_MESSAGE                                        |
       | {"password":"12345"}         | 400    | Field validation error | username          | username must not be null                            |
       | {"username":"test-username"} | 400    | Field validation error | password          | password must not be null                            |
-      | {}                           | 400    | Field validation error | password,username | password must not be null, username must not be null |
+      | {}                           | 400    | Field validation error | password,username | password must not be null,username must not be null |
 
   Scenario: When keycloak is down, login error response is returned as expected
     Given an endpoint AUTH_LOGIN is prepared with body {"username":"test-username","password":"12345"}
