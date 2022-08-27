@@ -1,6 +1,6 @@
 # identity-service
 
-[![Build and test](https://github.com/shopping-api/identity-service/actions/workflows/identity-ci.yml/badge.svg)](https://github.com/shopping-api/identity-service/actions/workflows/identity-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=shopping-api_identity-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=shopping-api_identity-service) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/shopping-api/identity-service/blob/main/LICENSE)
+[![Build and test](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml/badge.svg)](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_identity-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_identity-service) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/identity-service/blob/main/LICENSE)
 
 Keycloak is an Open Source Identity and Access Management. It is used on this project with OpenID Connect. 
 
@@ -23,4 +23,4 @@ These users and roles are used across the [shopping-api](https://github.com/shop
 
 ## How to run
 
-See [Wiki](https://github.com/shopping-api/identity-service/wiki/Keycloak#how-to-run).
+See [Wiki](https://github.com/groot-mg/identity-service/wiki/Keycloak#how-to-run).
