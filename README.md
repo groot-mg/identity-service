@@ -15,7 +15,7 @@ Sales role:
 - user: sales
 - password: sales
 
-These users and roles are used across the [shopping-api](https://github.com/shopping-api) modules to allow access in specific endpoints and provides secured API.
+These users and roles are used across the [groot-mg](https://github.com/groot-mg) modules to allow access in specific endpoints and provides secured API.
 
 
 | IMPORTANT: Never storage plain text users and passwords in a repo, mainly in a public repo. This is here for documentation purpose in case of someone wants to run it in a local environment, and this is a portfolio project, so it will be useful to have default users to be used. |
