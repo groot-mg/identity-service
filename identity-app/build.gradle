@@ -16,7 +16,7 @@ jacoco {
 }
 
 ext {
-    keycloakAdminClientVersion = '19.0.3'
+    keycloakAdminClientVersion = '20.0.1'
     openApiVersion = '1.6.12'
 }
 
