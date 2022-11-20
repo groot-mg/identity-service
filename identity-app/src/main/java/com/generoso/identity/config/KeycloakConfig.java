@@ -2,7 +2,7 @@ package com.generoso.identity.config;
 
 import com.generoso.identity.config.properties.KeycloakProperties;
 import lombok.RequiredArgsConstructor;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -25,7 +25,7 @@ public class KeycloakConfig {
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .clientId(keycloakProperties.clientId())
                 .clientSecret(keycloakProperties.clientSecret())
-                .resteasyClient(new ResteasyClientBuilder()
+                .resteasyClient(new ResteasyClientBuilderImpl()
                         .connectionPoolSize(10).build())
                 .build();
     }
