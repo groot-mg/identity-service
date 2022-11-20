@@ -5,7 +5,7 @@ import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.model.Downstream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.admin.client.Config;
 import org.keycloak.admin.client.token.TokenManager;
 import org.keycloak.representations.AccessTokenResponse;
@@ -25,7 +25,7 @@ public class AuthService {
 
     public AccessTokenResponse login(String username, String password) {
         var config = buildConfig(username, password);
-        var resteasyClient = new ResteasyClientBuilder().connectionPoolSize(10).build();
+        var resteasyClient = new ResteasyClientBuilderImpl().connectionPoolSize(10).build();
 
         try {
             var tokenManager = new TokenManager(config, resteasyClient);
