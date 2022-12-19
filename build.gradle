@@ -1,5 +1,5 @@
 plugins {
-    id 'io.freefair.lombok' version '6.5.1' apply false
+    id 'io.freefair.lombok' version '6.6.1' apply false
     id 'org.sonarqube' version '3.5.0.2730'
 }
 
