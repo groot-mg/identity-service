@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 class RestExceptionHandlerTest {
 
@@ -54,7 +56,8 @@ class RestExceptionHandlerTest {
     void shouldReturnExpectedFieldsOnHandleMethodArgumentNotValid(MapBindingResult bindingResult, String expectedField,
                                                                   String expectedMessage) {
         // arrange
-        var exception = new MethodArgumentNotValidException(null, bindingResult);
+        var parameter = mock(MethodParameter.class);
+        var exception = new MethodArgumentNotValidException(parameter, bindingResult);
 
         var headers = new HttpHeaders();
         headers.add("Content-type", "application/json");
