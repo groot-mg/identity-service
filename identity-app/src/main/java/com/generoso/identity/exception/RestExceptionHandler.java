@@ -4,6 +4,7 @@ import com.generoso.identity.exception.error.ErrorDetail;
 import com.generoso.identity.exception.error.ValidationErrorDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,7 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception exception, Object body,
-                                                             HttpHeaders headers, HttpStatus status,
+                                                             HttpHeaders headers, HttpStatusCode status,
                                                              WebRequest request) {
         var errorDetail = ErrorDetail.builder()
                 .status(status.value())
@@ -34,7 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
-                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                               HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var fieldErrors = exception.getBindingResult().getFieldErrors();
         var fields = fieldErrors.stream().map(FieldError::getField)
                 .collect(Collectors.joining(", "));
