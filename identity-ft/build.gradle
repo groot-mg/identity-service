@@ -7,7 +7,7 @@ plugins {
 
 ext {
     cucumberVersion = '7.11.1'
-    jacksonDataBinding = '2.14.2'
+    jacksonDataBinding = '2.15.0'
     wiremockStandalone = '2.35.0'
     googleGuavaVersion = '31.1-jre'
     prometheusScraperVersion = '0.23.0.Final'
