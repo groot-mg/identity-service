@@ -3,6 +3,9 @@ package com.generoso.identity.service;
 import com.generoso.identity.config.properties.KeycloakProperties;
 import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.model.Downstream;
+import jakarta.ws.rs.InternalServerErrorException;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.ProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
@@ -11,10 +14,6 @@ import org.keycloak.admin.client.token.TokenManager;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.ProcessingException;
 
 @Slf4j
 @Service
