@@ -11,9 +11,9 @@ server:
 
 keycloak:
   server-url: http://localhost:8180
-  realm: changeme
-  client-id: changeme
-  client-secret: changeme
+  realm: shopping-api
+  client-id: demo-client # please never save plain text data like this in a real project
+  client-secret: ZhVCiZ3pyKwxWcXh5K7wC4fcnSTP3YGC # please never save plain text data like this in a real project
 
 management:
   endpoint:
