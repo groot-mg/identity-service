@@ -1,8 +1,14 @@
 package com.generoso.identity.exception;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import com.generoso.identity.exception.error.ErrorDetail;
 import com.generoso.identity.exception.error.ValidationErrorDetails;
 import com.generoso.identity.model.Downstream;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,14 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 class RestExceptionHandlerTest {
 
@@ -53,8 +51,9 @@ class RestExceptionHandlerTest {
     @MethodSource("provideMessageValidationsToTest")
     @ParameterizedTest
     @SuppressWarnings("ConstantConditions")
-    void shouldReturnExpectedFieldsOnHandleMethodArgumentNotValid(MapBindingResult bindingResult, String expectedField,
-                                                                  String expectedMessage) {
+    void shouldReturnExpectedFieldsOnHandleMethodArgumentNotValid(
+            MapBindingResult bindingResult, String expectedField,
+            String expectedMessage) {
         // arrange
         var parameter = mock(MethodParameter.class);
         var exception = new MethodArgumentNotValidException(parameter, bindingResult);

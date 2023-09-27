@@ -4,6 +4,10 @@ import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.exception.RequestException;
 import com.generoso.identity.model.Downstream;
 import com.generoso.identity.service.validation.PasswordValidator;
+import jakarta.ws.rs.InternalServerErrorException;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.core.Response;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -12,11 +16,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.core.Response;
-import java.util.Collections;
 
 @Service
 @Slf4j

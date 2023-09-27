@@ -1,7 +1,10 @@
 package com.generoso.identity.exception;
 
+import static java.lang.String.format;
 import com.generoso.identity.exception.error.ErrorDetail;
 import com.generoso.identity.exception.error.ValidationErrorDetails;
+import jakarta.ws.rs.NotAuthorizedException;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,18 +16,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.ws.rs.NotAuthorizedException;
-import java.util.stream.Collectors;
-
-import static java.lang.String.format;
-
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception exception, Object body,
-                                                             HttpHeaders headers, HttpStatusCode status,
-                                                             WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(
+            Exception exception, Object body,
+            HttpHeaders headers, HttpStatusCode status,
+            WebRequest request) {
         var errorDetail = ErrorDetail.builder()
                 .status(status.value())
                 .error("Internal Exception")
@@ -34,8 +33,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
-                                                               HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var fieldErrors = exception.getBindingResult().getFieldErrors();
         var fields = fieldErrors.stream().map(FieldError::getField)
                 .collect(Collectors.joining(", "));
