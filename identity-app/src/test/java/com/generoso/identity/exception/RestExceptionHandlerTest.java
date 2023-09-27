@@ -22,7 +22,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 class RestExceptionHandlerTest {
 
-    private RestExceptionHandler handler = new RestExceptionHandler();
+    private final RestExceptionHandler handler = new RestExceptionHandler();
 
     @Test
     @SuppressWarnings("ConstantConditions")
