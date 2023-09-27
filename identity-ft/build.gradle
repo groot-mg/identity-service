@@ -6,7 +6,7 @@ plugins {
 }
 
 ext {
-    cucumberVersion = '7.12.1'
+    cucumberVersion = '7.14.0'
     jacksonDataBinding = '2.15.2'
     wiremockStandalone = '2.35.0'
     googleGuavaVersion = '31.1-jre'
