@@ -9,7 +9,7 @@ Feature: Checking Identity app actuator endpoints return expected outputs
     Then the response status code should be 200
     And the health response body of the message should have the status "UP"
     And health components should contain the status UP:
-      | diskSpace          |
+      | keycloak |
     And metrics are gathered again
     And the application_responses_total metric for endpoint PRIVATE_HEALTH_CHECK with status response code 200 has incremented by 1
 
@@ -27,9 +27,9 @@ Feature: Checking Identity app actuator endpoints return expected outputs
     When the request is sent
     Then the response status code should be 200
     And it should return build information containing the following keys and values:
-      | artifact | identity-app  |
-      | name     | identity-service  |
-      | group    | com.generoso |
+      | artifact | identity-app     |
+      | name     | identity-service |
+      | group    | com.generoso     |
     And the response body contains:
       | git   |
       | build |
