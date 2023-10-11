@@ -29,7 +29,7 @@ dependencies {
     testImplementation "org.hawkular.agent:prometheus-scraper:${prometheusScraperVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "com.google.guava:guava:32.1.2-jre"
+    testImplementation "com.google.guava:guava:32.1.3-jre"
     testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}"
 }
 
