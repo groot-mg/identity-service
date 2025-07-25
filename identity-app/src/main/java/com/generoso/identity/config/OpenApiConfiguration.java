@@ -40,7 +40,7 @@ public class OpenApiConfiguration {
     private Contact apiContact() {
         return new Contact()
                 .name("Mauricio Generoso")
-                .email("mauricio.generoso@hotmail.com")
+                .email("mauricio.marquesgeneroso@gmail.com")
                 .url("https://github.com/mauriciogeneroso");
     }
 }

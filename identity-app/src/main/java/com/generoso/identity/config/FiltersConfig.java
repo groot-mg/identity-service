@@ -18,8 +18,7 @@ public class FiltersConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<ApplicationResponsesMetricsFilter> responseMetricFilter(
-            Counter responseCounter) {
+    public FilterRegistrationBean<ApplicationResponsesMetricsFilter> responseMetricFilter(Counter responseCounter) {
         var filter = new FilterRegistrationBean<>(new ApplicationResponsesMetricsFilter(responseCounter));
         filter.setOrder(1);
         return filter;

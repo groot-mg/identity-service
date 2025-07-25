@@ -7,7 +7,6 @@ import com.generoso.identity.service.validation.PasswordValidator;
 import jakarta.ws.rs.InternalServerErrorException;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.core.Response;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -17,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.Collections;
+
 @Slf4j
+@Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
@@ -48,13 +49,13 @@ public class UserService {
     }
 
     private void validateKeycloakResponse(Response response, UserRepresentation user) {
-        if (response.getStatus() == 201) {
-            log.info("Created user {}", user.getUsername());
-        } else if (response.getStatus() == 409) {
-            throw new RequestException("Duplicated user", HttpStatus.CONFLICT.value());
-        } else if (response.getStatus() == 500) {
-            log.error("Error sending request to create a new user: {}", response.getEntity());
-            throw new DownstreamException(Downstream.KEYCLOAK);
+        switch (response.getStatus()) {
+            case 201 -> log.info("Created user {}", user.getUsername());
+            case 409 -> throw new RequestException("Duplicated user", HttpStatus.CONFLICT.value());
+            default -> {
+                log.error("Unexpected error creating user: {}", response.getEntity());
+                throw new DownstreamException(Downstream.KEYCLOAK);
+            }
         }
     }
 }
