@@ -1,4 +1,4 @@
-FROM amazoncorretto:17-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 LABEL maintainer="Mauricio Generoso"
 
