@@ -3,7 +3,6 @@ package com.generoso.identity.service;
 import com.generoso.identity.config.properties.KeycloakProperties;
 import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.model.Downstream;
-import jakarta.ws.rs.InternalServerErrorException;
 import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.ProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +28,11 @@ public class AuthService {
         try {
             var tokenManager = new TokenManager(config, resteasyClient);
             return tokenManager.getAccessToken();
-        } catch (ProcessingException | InternalServerErrorException ex) {
-            log.error("Error sending login request: {}", ex.getMessage());
+        } catch (ProcessingException ex) {
+            log.error("Error sending login request: {}", ex.getMessage(), ex);
             throw new DownstreamException(Downstream.KEYCLOAK);
         } catch (NotAuthorizedException ex) {
-            throw new NotAuthorizedException("Wrong username or password", ex);
+            throw new NotAuthorizedException("Wrong username/password", ex);
         }
     }
 

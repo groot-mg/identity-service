@@ -6,7 +6,7 @@ import static java.lang.String.format;
 
 public class DownstreamException extends RuntimeException {
 
-    private static final String MESSAGE_TEMPLATE = "Downstream down: %s";
+    private static final String MESSAGE_TEMPLATE = "Downstream: %s";
 
     public DownstreamException(Downstream downstream) {
         super(format(MESSAGE_TEMPLATE, downstream.name()));

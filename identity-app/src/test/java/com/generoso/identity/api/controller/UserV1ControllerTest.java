@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.stream.Stream;
 
+import static com.generoso.identity.api.controller.CommonControllerTest.missingFieldsAssert400Response;
+import static com.generoso.identity.utils.JsonUtils.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -31,12 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserV1ControllerTest {
 
     private static final String CONTROLLER_MAPPING = "/v1/users";
-
-    @Autowired
-    private JsonUtils jsonUtils;
-
-    @Autowired
-    private CommonControllerTest commonControllerTest;
 
     @Autowired
     private MockMvc mockMvc;
@@ -63,7 +59,7 @@ class UserV1ControllerTest {
         // Act
         this.mockMvc.perform(post(CONTROLLER_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonUtils.asString(userDto)))
+                        .content(asJsonString(userDto)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -75,8 +71,7 @@ class UserV1ControllerTest {
     @MethodSource("provideInputsToTestMissingField")
     @ParameterizedTest
     void whenFieldsAreMissing_shouldReturn400Response(String jsonBody, String field, String fieldMessage) throws Exception {
-        commonControllerTest.testWhenFieldsAreMissingAndShouldReturn400Response(CONTROLLER_MAPPING, jsonBody,
-                field, fieldMessage);
+        missingFieldsAssert400Response(mockMvc, CONTROLLER_MAPPING, jsonBody, field, fieldMessage);
     }
 
     private static Stream<Arguments> provideInputsToTestMissingField() {

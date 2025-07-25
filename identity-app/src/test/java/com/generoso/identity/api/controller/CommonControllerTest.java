@@ -1,39 +1,32 @@
 package com.generoso.identity.api.controller;
 
 import com.generoso.identity.exception.error.ValidationErrorDetails;
-import com.generoso.identity.utils.JsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.generoso.identity.utils.JsonUtils.fromJson;
 import static java.util.Arrays.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Component
-@SuppressWarnings("java:S2187")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class CommonControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private JsonUtils jsonUtils;
-
-    void testWhenFieldsAreMissingAndShouldReturn400Response(String path, String jsonBody, String field, String fieldMessage) throws Exception {
+    static void missingFieldsAssert400Response(MockMvc mockMvc, String path, String jsonBody,
+                                               String field, String fieldMessage) throws Exception {
         // Act
-        var result = this.mockMvc.perform(post(path)
+        var result = mockMvc.perform(post(path)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-
         // Assert
         var responseBody = result.getResponse().getContentAsString();
-        var errorDetails = jsonUtils.fromJson(responseBody, ValidationErrorDetails.class);
+        var errorDetails = fromJson(responseBody, ValidationErrorDetails.class);
 
         var fieldSplit = field.split(",");
         var fieldMessageSplit = fieldMessage.split(",");

@@ -12,28 +12,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonUtils {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public JsonUtils() {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    private JsonUtils() {
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        OBJECT_MAPPER.registerModule(new JavaTimeModule());
+        OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public String asString(Object object) {
+    public static String asJsonString(Object object) {
         try {
-            return objectMapper.writeValueAsString(object);
+            return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
-            log.error("Error converting object to json string: {}", ex.getMessage());
+            log.error("Error converting object to json string: {}", ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
-    public <T> T fromJson(String json, Class<T> clazz) {
+    public static <T> T fromJson(String json, Class<T> clazz) {
         try {
-            return objectMapper.readValue(json, clazz);
+            return OBJECT_MAPPER.readValue(json, clazz);
         } catch (JsonProcessingException ex) {
-            log.error("Error converting object to json string: {}", ex.getMessage());
+            log.error("Error converting object to json string: {}", ex.getMessage(), ex);
             throw new RuntimeException("Error reading json value", ex);
         }
     }
