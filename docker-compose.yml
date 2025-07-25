@@ -9,8 +9,6 @@ services:
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-    volumes:
-      - ./keycloak/backup:/opt/keycloak/data/h2
     healthcheck:
       test: "curl --fail --silent http://localhost:9000/health | grep UP || exit 1"
       interval: 20s

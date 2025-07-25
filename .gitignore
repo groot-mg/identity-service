@@ -59,6 +59,3 @@ build/
 
 ### Custom
 **/reports/**
-
-### keycloak backup
-keycloak/backup/
