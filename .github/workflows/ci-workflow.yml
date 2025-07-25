@@ -1,6 +1,8 @@
-name: Build and test
+name: CI Workflow
 
 on:
+  schedule:
+    - cron: '0 12 1 */1 *'
   push:
     branches: [ main ]
     paths:
