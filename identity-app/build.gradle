@@ -1,23 +1,17 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
-    id 'org.springframework.boot' version '3.1.5'
-    id 'io.spring.dependency-management' version '1.1.7'
-    id "com.gorylenko.gradle-git-properties" version '2.4.1'
-    id 'pl.allegro.tech.build.axion-release' version '1.19.0'
-    id 'io.freefair.lombok'
-    id 'java'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.git.properties)
+    alias(libs.plugins.axion.release)
+    alias(libs.plugins.lombok)
+    alias(libs.plugins.jacoco)
+    alias(libs.plugins.java)
 }
-
-apply plugin: 'jacoco'
 
 jacoco {
     toolVersion = "0.8.12"
-}
-
-ext {
-    keycloakAdminClientVersion = '22.0.5'
-    openApiVersion = '1.7.0'
 }
 
 java {
@@ -54,15 +48,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation "org.keycloak:keycloak-admin-client:${keycloakAdminClientVersion}"
-    implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.springdoc.openapi)
 
-    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation(libs.keycloak.admin.client)
+    implementation(libs.micrometer.prometheus)
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation(libs.spring.boot.starter.test)
 }
 
 test {

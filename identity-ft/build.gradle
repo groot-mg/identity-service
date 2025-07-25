@@ -1,16 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.5'
-    id 'io.spring.dependency-management' version '1.1.7'
-    id "io.freefair.lombok"
-    id 'java'
-}
-
-ext {
-    cucumberVersion = '7.14.0'
-    jacksonDataBinding = '2.15.3'
-    wiremockStandalone = '3.0.1'
-    googleGuavaVersion = '31.1-jre'
-    prometheusScraperVersion = '0.23.0.Final'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.lombok)
+    alias(libs.plugins.java)
 }
 
 repositories {
@@ -20,17 +12,17 @@ repositories {
 dependencies {
     testImplementation project(":identity-app")
 
-    testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    testImplementation(libs.cucumber.spring)
+    testImplementation(libs.cucumber.java)
+    testImplementation(libs.cucumber.junit)
 
-    testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDataBinding}"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDataBinding}"
-    testImplementation "org.hawkular.agent:prometheus-scraper:${prometheusScraperVersion}"
+    testImplementation(libs.jackson.databing)
+    testImplementation(libs.jackson.datatype.jsr310)
+    testImplementation(libs.prometheus.scraper)
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "com.google.guava:guava:33.4.8-jre"
-    testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}"
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.google.guava)
+    testImplementation(libs.wiremock.standalone)
 }
 
 configurations {
