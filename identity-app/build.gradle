@@ -12,7 +12,7 @@ plugins {
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.12"
 }
 
 ext {
@@ -21,8 +21,8 @@ ext {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 scmVersion {
@@ -31,11 +31,9 @@ scmVersion {
 }
 project.version = scmVersion.version
 
-def commonJarConfigClosure = {
-    archiveName = "${rootProject.name}.jar"
+bootJar {
+    archiveFileName = "${rootProject.name}.jar"
 }
-
-bootJar commonJarConfigClosure
 
 springBoot {
     buildInfo {
@@ -83,6 +81,6 @@ jacocoTestReport {
         }))
     }
     reports {
-        xml.enabled true
+        xml.required = true
     }
 }

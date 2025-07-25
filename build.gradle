@@ -7,6 +7,11 @@ subprojects {
     group = 'com.generoso'
 }
 
+
+wrapper {
+    gradleVersion = 8.14
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "groot-mg_identity-service"
