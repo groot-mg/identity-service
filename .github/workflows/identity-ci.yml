@@ -24,7 +24,7 @@ on:
         - debug
 
 jobs:
-  build:
+  build-and-unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -58,6 +58,7 @@ jobs:
           path: identity-app/build/libs/${{ env.REPO_BASENAME }}.jar
 
   functional-tests:
+    needs: build-and-unit-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
