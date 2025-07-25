@@ -6,24 +6,33 @@ on:
   push:
     branches: [ main ]
     paths:
-      - identity-app/**
-      - identity-ft/**
+      - 'gradle/**'
+      - '**.gradle'
+      - 'gradle.properties'
+      - 'identity-app/**'
+      - 'identity-ft/**'
+      - '.github/workflows/ci-workflow.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - identity-app/**
-      - identity-ft/**
+      - 'gradle/**'
+      - '**.gradle'
+      - 'gradle.properties'
+      - 'identity-app/**'
+      - 'identity-ft/**'
+      - '.github/workflows/ci-workflow.yml'
+
   workflow_dispatch:
     inputs:
       logLevel:
         description: 'Log level'
         required: true
-        default: 'debug'
+        default: 'info'
         type: choice
         options:
-        - info
-        - warning
-        - debug
+          - info
+          - warning
+          - debug
 
 jobs:
   build-and-unit-tests:
