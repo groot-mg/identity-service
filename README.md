@@ -1,6 +1,6 @@
 # identity-service
 
-[![Build and test](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml/badge.svg)](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_identity-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_identity-service) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/identity-service/blob/main/LICENSE)
+[![CI Workflow](https://github.com/groot-mg/identity-service/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/groot-mg/identity-service/actions/workflows/ci-workflow.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_identity-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_identity-service) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/identity-service/blob/main/LICENSE)
 
 Keycloak is an Open Source Identity and Access Management. It is used on this project with OpenID Connect. 
 
