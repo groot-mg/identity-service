@@ -45,7 +45,7 @@ jobs:
         with:
           name: unit-tests-report
           path: |
-            ${{ env.REPO_BASENAME }}/build/reports/tests/test/**/*
+            identity-app/build/reports/tests/test/**/*
 
       - name: Set repository basename
         id: set-basename
@@ -68,6 +68,10 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: Set repository basename
+        id: set-basename
+        run: echo "REPO_BASENAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
 
       - name: Download JAR
         uses: actions/download-artifact@v4
