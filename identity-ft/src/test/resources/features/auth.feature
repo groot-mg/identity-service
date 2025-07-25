@@ -32,7 +32,7 @@ Feature: Checking auth endpoint scenarios
     And keycloak-auth is primed to return 500 response status code
     When the request is sent
     Then the response status code should be 500
-    And error response should contain status 500 with error Error connection to a downstream and detail Downstream down: KEYCLOAK
+    And error response should contain status 500 with error Error connection to a downstream and detail Downstream: KEYCLOAK
     And metrics are gathered again
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 200 has incremented by 0
     And the application_responses_total metric for endpoint AUTH_LOGIN with status response code 400 has incremented by 0

@@ -102,7 +102,7 @@ class RestExceptionHandlerTest {
     @SuppressWarnings("ConstantConditions")
     void shouldReturnExpectedFieldsOnHandleDownstreamException() {
         // arrange
-        var exceptionMessage = "Downstream down: KEYCLOAK";
+        var exceptionMessage = "Downstream: KEYCLOAK";
         var exception = new DownstreamException(Downstream.KEYCLOAK);
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
 

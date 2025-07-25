@@ -85,7 +85,7 @@ class UserServiceTest {
         // Assert
         verify(passwordValidator).validate(password, repeatPassword);
         verify(usersResource).create(user);
-        assertThat(exception.getMessage()).isEqualTo("Downstream down: KEYCLOAK");
+        assertThat(exception.getMessage()).isEqualTo("Downstream: KEYCLOAK");
     }
 
     @Test
@@ -104,7 +104,7 @@ class UserServiceTest {
         // Assert
         verify(passwordValidator).validate(password, repeatPassword);
         verify(usersResource).create(user);
-        assertThat(exception.getMessage()).isEqualTo("Downstream down: KEYCLOAK");
+        assertThat(exception.getMessage()).isEqualTo("Downstream: KEYCLOAK");
     }
 
     @Test
@@ -123,6 +123,6 @@ class UserServiceTest {
         // Assert
         verify(passwordValidator).validate(password, repeatPassword);
         verify(usersResource).create(user);
-        assertThat(exception.getMessage()).isEqualTo("Downstream down: KEYCLOAK");
+        assertThat(exception.getMessage()).isEqualTo("Downstream: KEYCLOAK");
     }
 }
