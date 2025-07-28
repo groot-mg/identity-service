@@ -12,7 +12,7 @@ keycloakAdminClientVersion = '22.0.5'
 springDocVersion = '1.7.0'
 
 ## Test Libraries
-cucumberVersion = '7.14.0'
+cucumberVersion = '7.27.0'
 jacksonDataBindingVersion = '2.15.3'
 wiremockStandaloneVersion = '3.0.1'
 googleGuava = '31.1-jre'
