@@ -9,11 +9,25 @@ services:
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-    healthcheck:
-      test: "curl --fail --silent http://localhost:9000/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
+
+  keycloak-healthcheck:
+    image: curlimages/curl:8.15.0
+    depends_on:
+      - keycloak
+    entrypoint: >
+      sh -c '
+        echo "Waiting for Keycloak to become healthy...";
+        for i in $(seq 1 10); do
+          if curl --fail --silent --output /dev/null http://keycloak:9000/health; then
+            echo "Keycloak is healthy.";
+            exit 0;
+          fi
+          echo "Keycloak not ready yet.";
+          sleep 5;
+        done
+        echo "Keycloak did not become healthy in time.";
+        exit 1;
+      '
 
   identity-service:
     container_name: identity-app
@@ -22,8 +36,8 @@ services:
     ports:
       - "8181:8181"
     depends_on:
-      keycloak:
-        condition: service_healthy
+      keycloak-healthcheck:
+        condition: service_completed_successfully
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - KEYCLOAK_SERVERURL=http://keycloak:8080
