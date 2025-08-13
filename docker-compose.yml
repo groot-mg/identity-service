@@ -6,28 +6,29 @@ services:
     ports:
       - "8180:8080"
       - "9000:9000"
-    environment:
-      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
-      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    env_file:
+      - keycloak.env
 
   keycloak-healthcheck:
-    image: curlimages/curl:8.15.0
+    container_name: keycloak-healthcheck
+    build: keycloak-healthcheck
     depends_on:
       - keycloak
-    entrypoint: >
-      sh -c '
-        echo "Waiting for Keycloak to become healthy...";
-        for i in $(seq 1 10); do
-          if curl --fail --silent --output /dev/null http://keycloak:9000/health; then
-            echo "Keycloak is healthy.";
-            exit 0;
-          fi
-          echo "Keycloak not ready yet.";
-          sleep 5;
-        done
-        echo "Keycloak did not become healthy in time.";
-        exit 1;
-      '
+    environment:
+      - KEYCLOAK_ADMIN_HOST=http://keycloak:9000
+      - RETRY_MAX_ATTEMPT=10
+      - RETRY_WAIT_INTERVAL_SECONDS=5
+
+  keycloak-init:
+    container_name: keycloak-init
+    build: keycloak-init
+    depends_on:
+      keycloak-healthcheck:
+        condition: service_completed_successfully
+    env_file:
+      - keycloak.env
+    environment:
+      - KEYCLOAK_HOST=http://keycloak:8080
 
   identity-service:
     container_name: identity-app
