@@ -8,12 +8,12 @@ lombokVersion = '8.14'
 sonarqubeVersion = '6.2.0.5505'
 
 ## Library versions
-keycloakAdminClientVersion = '22.0.5'
+keycloakAdminClientVersion = '26.0.6'
 springDocVersion = '1.7.0'
 
 ## Test Libraries
 cucumberVersion = '7.14.0'
-jacksonDataBindingVersion = '2.15.3'
+jacksonDataBindingVersion = '2.19.2'
 wiremockStandaloneVersion = '3.0.1'
 googleGuava = '31.1-jre'
 prometheusScraperVersion = '0.23.0.Final'

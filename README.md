@@ -7,6 +7,11 @@ Keycloak is an Open Source Identity and Access Management. It is used on this pr
 The `keycloak` and the `identity-service` on this repository are just a small part of the [groot-mg](https://github.com/groot-mg) project.
 See the full [documentation](https://github.com/groot-mg/docs) to understand how all the services run together and how they interact and what functionalities are avaialble. 
 
+## Requirements
+
+- Gradle
+- Java 21
+
 ## Local environment
 
 This repository sets up `keycloak` for local environment, it pre-loads configuration
@@ -22,7 +27,7 @@ The default realm loaded via json file contains a realm named `groot-mg`.
 Some clients are loaded via config as well:
 
 - `groot-mg-web-app`: to be used on frontend with `PKCE` for user authentication
-- `groot-mg-identity-service`: the `identity-service` has an endpoint to create users and an endpoint to log in with
+- `groot-mg-identity-app`: the `identity-service` has an endpoint to create users and an endpoint to log in with
   `username` and `password`, it is only for study proposal.
 - `groot-mg-backend`: Used on the resource-servers to validate user's tokens and user's roles to allow or block access
   to certain resources/endpoints.
@@ -48,4 +53,4 @@ The [keycloak-init](./keycloak-init) has a script that creates the following use
 
 ## How to run
 
-See [Wiki](https://github.com/groot-mg/identity-service/wiki/Keycloak#how-to-run).
+See [Wiki](https://github.com/groot-mg/identity-service/wiki).
