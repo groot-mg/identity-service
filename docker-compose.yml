@@ -31,22 +31,11 @@ services:
       - KEYCLOAK_HOST=http://keycloak:8080
 
   identity-service:
-    container_name: identity-app
-    build: identity-app
-    restart: always
-    ports:
-      - "8181:8181"
+    extends:
+      file: docker-compose.app.yml
+      service: identity-service
     depends_on:
       keycloak-healthcheck:
         condition: service_completed_successfully
     environment:
-      - SPRING_PROFILES_ACTIVE=local
-      - KEYCLOAK_SERVERURL=http://keycloak:8080
-      - KEYCLOAK_REALM=shopping-api
-      - KEYCLOAK_CLIENTID=demo-client
-      - KEYCLOAK_CLIENTSECRET=ZhVCiZ3pyKwxWcXh5K7wC4fcnSTP3YGC
-    healthcheck:
-      test: "curl --fail --silent http://localhost:8181/private/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
+      - KEYCLOAK_URL=http://keycloak:8080

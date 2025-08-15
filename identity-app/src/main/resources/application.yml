@@ -10,10 +10,10 @@ server:
     contextPath: /identity
 
 keycloak:
-  server-url: http://localhost:8180
-  realm: groot-mg
-  client-id: groot-mg-identity-app # please never save plain text data like this in a real project
-  client-secret: yeL37FpucV9slQGp6r5OTmzEu485yETv # please never save plain text data like this in a real project
+  server-url: ${KEYCLOAK_URL:http://localhost:8180}
+  realm: ${KEYCLOAK_REALM:groot-mg}
+  client-id: ${KEYCLOAK_CLIENT_ID:groot-mg-identity-app} # please never save plain text data like this in a real project
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:yeL37FpucV9slQGp6r5OTmzEu485yETv} # please never save plain text data like this in a real project
 
 management:
   endpoint:

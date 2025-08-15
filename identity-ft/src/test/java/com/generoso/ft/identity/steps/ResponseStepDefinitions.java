@@ -1,9 +1,10 @@
 package com.generoso.ft.identity.steps;
 
+import com.generoso.ft.identity.client.model.ErrorDetail;
 import com.generoso.ft.identity.client.model.JsonMapper;
+import com.generoso.ft.identity.client.model.ValidationErrorDetails;
 import com.generoso.ft.identity.state.ScenarioState;
-import com.generoso.identity.exception.error.ErrorDetail;
-import com.generoso.identity.exception.error.ValidationErrorDetails;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;

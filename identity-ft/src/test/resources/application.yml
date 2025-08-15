@@ -1,15 +1,12 @@
 spring:
-  jmx:
-    enable: false
   application:
-    name: identity-ft
+    name: identify-ft
   profiles:
     active: local
 
 service:
   host: http://localhost:8181
-#  context-path: /identity
 
 wiremock:
   host: localhost
-  port: 8180
+  port: 9090

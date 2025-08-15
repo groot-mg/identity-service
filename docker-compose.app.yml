@@ -1,0 +1,12 @@
+services:
+  identity-service:
+    container_name: identity-app
+    build: identity-app
+    restart: always
+    ports:
+      - "8181:8181"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8181/private/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5

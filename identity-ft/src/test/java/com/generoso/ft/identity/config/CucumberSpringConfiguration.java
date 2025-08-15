@@ -1,14 +1,14 @@
 package com.generoso.ft.identity.config;
 
-import com.generoso.ft.identity.YamlFileApplicationContextInitializer;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+@SpringBootTest
 @ContextConfiguration(classes = {
         TestConfiguration.class,
-        LocalIdentityService.class
-},
-        initializers = YamlFileApplicationContextInitializer.class)
+        LocalWiremockServer.class
+})
 @CucumberContextConfiguration
 public class CucumberSpringConfiguration {
 }

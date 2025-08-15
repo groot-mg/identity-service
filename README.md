@@ -12,7 +12,46 @@ See the full [documentation](https://github.com/groot-mg/docs) to understand how
 - Gradle
 - Java 21
 
-## Local environment
+## Build, tests and run
+
+### Build
+Build with gradle (build + unit tests):
+```
+./gradlew build
+```
+
+### Functional tests
+
+Before running the ft, it is required to have wiremock and app running, so run:
+
+```shell
+docker compose -f docker-compose.test.yml up -d --build
+```
+
+Run functional-tests:
+```shell
+./gradlew cucumber
+```
+
+### Run
+
+To run the application and the keycloak as a container in docker, run the command:
+
+```shell
+docker compose up -d
+```
+
+More details in the see [Wiki](https://github.com/groot-mg/identity-service/wiki)
+
+### Debug app locally
+
+To be able to debug the application locally, we need to run the mocks with a different parameter, so run via command line:
+
+```shell
+docker compose -f docker-compose.yml up -d --build keycloak-init
+```
+
+## Local Keyloak
 
 This repository sets up `keycloak` for local environment, it pre-loads configuration
 from [realm-export.json](./keycloak/config/realm-export.json) and it also creates default users
@@ -29,7 +68,7 @@ Some clients are loaded via config as well:
 - `groot-mg-web-app`: to be used on frontend with `PKCE` for user authentication
 - `groot-mg-identity-app`: the `identity-service` has an endpoint to create users and an endpoint to log in with
   `username` and `password`, it is only for study proposal.
-- `groot-mg-backend`: Used on the resource-servers to validate user's tokens and user's roles to allow or block access
+- `groot-mg-backend`: Used on the `resource-servers` to validate user's tokens and user's roles to allow or block access
   to certain resources/endpoints.
 
 ### Default roles
@@ -48,9 +87,5 @@ The [keycloak-init](./keycloak-init) has a script that creates the following use
 | client   | client-password  | client-user  |
 | support  | support-password | support-user |
 
-| IMPORTANT: Never storage plain text users and passwords in a repo, mainly in a public repo. This is here for documentation purpose in case of someone wants to run it in a local environment, and this is a portfolio project, so it will be useful to have default users to be used. |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
-
-## How to run
-
-See [Wiki](https://github.com/groot-mg/identity-service/wiki).
+| IMPORTANT: Never storage plain text users and passwords in a repo, mainly in a public repo. This is here for documentation purpose and in case of someone wants to run it in a local environment. So, this is a portfolio project, so it will be useful to have default/example users to be used. |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

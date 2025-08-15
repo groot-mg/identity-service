@@ -1,8 +1,7 @@
 package com.generoso.ft.identity.util;
 
-import com.github.tomakehurst.wiremock.client.HttpAdminClient;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
-import com.github.tomakehurst.wiremock.http.ResponseDefinition;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
@@ -26,16 +25,16 @@ public class WiremockUtil {
             .put("keycloak-create-user", fromString("39e6b2dc-ab78-4762-9cc2-2ccc09ec2c9f"))
             .build();
 
-    private final HttpAdminClient wiremockClient;
-
-    public void primeResponseWithBody(String downstream, ResponseDefinition response) {
+    public void primeResponseWithBody(String downstream, ResponseDefinitionBuilder response) {
         primeResponseWithBody(getStubId(downstream), response);
     }
 
-    public void primeResponseWithBody(UUID stubId, ResponseDefinition response) {
+    public void primeResponseWithBody(UUID stubId, ResponseDefinitionBuilder response) {
         var existingStubMapping = getStubMapping(stubId);
-        existingStubMapping.setResponse(response);
-        wiremockClient.editStubMapping(existingStubMapping);
+        var method = existingStubMapping.getRequest().getMethod().toString();
+        var urlMatcher = existingStubMapping.getRequest().getUrlMatcher();
+
+        editStub(request(method, urlMatcher).withId(stubId).willReturn(response));
     }
 
     public ResponseDefinitionBuilder buildErrorResponse(int statusCode) {
@@ -43,7 +42,7 @@ public class WiremockUtil {
     }
 
     private StubMapping getStubMapping(UUID stubId) {
-        return wiremockClient.getStubMapping(stubId).getItem();
+        return WireMock.getSingleStubMapping(stubId);
     }
 
     private UUID getStubId(String endpoint) {

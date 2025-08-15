@@ -7,7 +7,7 @@ for i in $(seq 1 $RETRY_MAX_ATTEMPT); do
     exit 0;
   fi
   echo "Keycloak not ready yet.";
-  sleep RETRY_WAIT_INTERVAL_SECONDS;
+  sleep $RETRY_WAIT_INTERVAL_SECONDS;
 done
 echo "Keycloak did not become healthy in time.";
 exit 1;

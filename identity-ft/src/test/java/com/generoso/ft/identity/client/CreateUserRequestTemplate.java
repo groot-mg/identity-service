@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@Qualifier("service-request")
+@Qualifier("serviceRequest")
 public class CreateUserRequestTemplate extends RequestTemplate {
 
     public CreateUserRequestTemplate(@Value("${service.host}") String host,

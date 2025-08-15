@@ -10,11 +10,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(":identity-app")
-
     testImplementation(libs.cucumber.spring)
     testImplementation(libs.cucumber.java)
-    testImplementation(libs.cucumber.junit)
 
     testImplementation(libs.jackson.databing)
     testImplementation(libs.jackson.datatype.jsr310)
