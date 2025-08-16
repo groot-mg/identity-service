@@ -3,6 +3,9 @@ spring:
     enable: false
   application:
     name: identity-service
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS
+    time-zone: UTC
 
 server:
   port: 8181

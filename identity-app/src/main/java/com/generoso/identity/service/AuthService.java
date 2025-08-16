@@ -3,8 +3,8 @@ package com.generoso.identity.service;
 import com.generoso.identity.config.properties.KeycloakProperties;
 import com.generoso.identity.exception.DownstreamException;
 import com.generoso.identity.model.Downstream;
+import jakarta.ws.rs.InternalServerErrorException;
 import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.ProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
@@ -28,7 +28,7 @@ public class AuthService {
         try {
             var tokenManager = new TokenManager(config, resteasyClient);
             return tokenManager.getAccessToken();
-        } catch (ProcessingException ex) {
+        } catch (InternalServerErrorException ex) {
             log.error("Error sending login request: {}", ex.getMessage(), ex);
             throw new DownstreamException(Downstream.KEYCLOAK);
         } catch (NotAuthorizedException ex) {

@@ -51,7 +51,7 @@ To be able to debug the application locally, we need to run the mocks with a dif
 docker compose -f docker-compose.yml up -d --build keycloak-init
 ```
 
-## Local Keyloak
+## Local Keycloak
 
 This repository sets up `keycloak` for local environment, it pre-loads configuration
 from [realm-export.json](./keycloak/config/realm-export.json) and it also creates default users
