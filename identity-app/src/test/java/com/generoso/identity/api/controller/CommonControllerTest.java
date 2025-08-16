@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@SuppressWarnings("java:S2187")
 class CommonControllerTest {
 
     static void missingFieldsAssert400Response(MockMvc mockMvc, String path, String jsonBody,

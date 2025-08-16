@@ -1,17 +1,17 @@
 package com.generoso.identity.api.filter;
 
-import io.prometheus.client.Counter;
-import lombok.RequiredArgsConstructor;
-
+import com.generoso.identity.service.MetricsService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 
 @RequiredArgsConstructor
 public class ApplicationResponsesMetricsFilter implements Filter {
 
-    private final Counter responseCounter;
+    private final MetricsService metricsService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -21,7 +21,7 @@ public class ApplicationResponsesMetricsFilter implements Filter {
         var path = httpServletRequest.getRequestURI();
         var method = httpServletRequest.getMethod();
         var statusCode = String.valueOf(((HttpServletResponse) response).getStatus());
-        responseCounter.labels(method, path, statusCode).inc();
+        metricsService.applicationResponseTotal(method, path, statusCode);
     }
 
     @Override

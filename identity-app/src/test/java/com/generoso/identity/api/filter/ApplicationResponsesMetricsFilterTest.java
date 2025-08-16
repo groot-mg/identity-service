@@ -1,32 +1,29 @@
 package com.generoso.identity.api.filter;
 
-import com.generoso.identity.config.MetricsConfig;
-import io.prometheus.client.Counter;
+import com.generoso.identity.service.MetricsService;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import jakarta.servlet.ServletException;
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {MetricsConfig.class})
 class ApplicationResponsesMetricsFilterTest {
 
-    @Autowired
-    private Counter responseCounter;
+    @MockitoBean
+    private MetricsService metricsService;
 
     @Test
     void shouldIncreaseTheRequestMetricCounter() throws ServletException, IOException {
         // Arrange
-        var filter = new ApplicationResponsesMetricsFilter(responseCounter);
+        var filter = new ApplicationResponsesMetricsFilter(metricsService);
 
         var request = new MockHttpServletRequest();
         request.setMethod("GET");
@@ -39,6 +36,6 @@ class ApplicationResponsesMetricsFilterTest {
         filter.doFilter(request, response, filterChain);
 
         // Assert
-        assertThat(responseCounter.labels("GET", "/unit-test", "200").get()).isEqualTo(1);
+        verify(metricsService).applicationResponseTotal("GET", "/unit-test", "200");
     }
 }

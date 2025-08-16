@@ -4,7 +4,6 @@ import com.generoso.identity.api.converter.UserV1Converter;
 import com.generoso.identity.api.dto.UserV1Dto;
 import com.generoso.identity.model.UserType;
 import com.generoso.identity.service.UserService;
-import com.generoso.identity.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,9 +12,9 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.stream.Stream;
@@ -37,10 +36,10 @@ class UserV1ControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private UserService service;
 
-    @SpyBean
+    @MockitoSpyBean
     private UserV1Converter converter;
 
     @Test
@@ -70,6 +69,7 @@ class UserV1ControllerTest {
 
     @MethodSource("provideInputsToTestMissingField")
     @ParameterizedTest
+    @SuppressWarnings("java:S2699")
     void whenFieldsAreMissing_shouldReturn400Response(String jsonBody, String field, String fieldMessage) throws Exception {
         missingFieldsAssert400Response(mockMvc, CONTROLLER_MAPPING, jsonBody, field, fieldMessage);
     }
