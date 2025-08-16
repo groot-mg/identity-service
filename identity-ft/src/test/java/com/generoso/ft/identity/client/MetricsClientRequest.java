@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class MetricsClientRequest {
 
     @Autowired
-    private PrivateMetricsRequestTemplate privateMetricsRequestTemplate;
+    private PrivateRequestTemplate.PrivateMetricsRequestTemplate privateMetricsRequestTemplate;
 
     @Autowired
     private Client client;
@@ -24,12 +23,12 @@ public class MetricsClientRequest {
         try {
             var response = client.execute(privateMetricsRequestTemplate);
             return parsePrometheusMetrics(response.body());
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Unable to gather metrics", e);
         }
     }
 
-    private List<MetricFamily> parsePrometheusMetrics(String metricEndpointResponseBody) throws IOException {
+    private List<MetricFamily> parsePrometheusMetrics(String metricEndpointResponseBody) {
         var inputStream = new ByteArrayInputStream(metricEndpointResponseBody.getBytes(StandardCharsets.UTF_8));
 
         var collector = new CollectorPrometheusMetricsWalker();

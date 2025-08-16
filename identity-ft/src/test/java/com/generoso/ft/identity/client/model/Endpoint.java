@@ -15,5 +15,5 @@ public enum Endpoint {
     CREATE_USER("/identity/v1/users", "POST");
 
     private final String path;
-    private final String method;;
+    private final String method;
 }

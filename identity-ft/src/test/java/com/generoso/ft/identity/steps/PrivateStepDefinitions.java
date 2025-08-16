@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generoso.ft.identity.client.RequestTemplate;
 import com.generoso.ft.identity.client.model.Endpoint;
-import com.generoso.ft.identity.client.model.JsonMapper;
 import com.generoso.ft.identity.client.model.PrivateHealthResponse;
 import com.generoso.ft.identity.state.ScenarioState;
 import io.cucumber.java.en.Given;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
+import static com.generoso.ft.identity.util.JsonMapper.fromJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,7 +24,6 @@ public class PrivateStepDefinitions {
 
     private final Map<Endpoint, RequestTemplate> privateRequestTemplates;
     private final ScenarioState scenarioState;
-    private final JsonMapper jsonMapper;
     private final ObjectMapper objectMapper;
 
     @Given("a private endpoint {} is prepared")
@@ -36,7 +35,7 @@ public class PrivateStepDefinitions {
     @Then("the health response body of the message should have the status {string}")
     public void theHealthResponseBodyOfTheMessageShouldHaveTheStatus(String expectedResponseBody) {
         var response = scenarioState.getActualResponse();
-        var responseObj = jsonMapper.fromJson(response.body(), PrivateHealthResponse.class);
+        var responseObj = fromJson(response.body(), PrivateHealthResponse.class);
         assertThat(responseObj.status()).isEqualTo(expectedResponseBody);
     }
 

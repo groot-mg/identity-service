@@ -1,15 +1,14 @@
 package com.generoso.ft.identity.steps;
 
 import com.generoso.ft.identity.client.model.ErrorDetail;
-import com.generoso.ft.identity.client.model.JsonMapper;
 import com.generoso.ft.identity.client.model.ValidationErrorDetails;
 import com.generoso.ft.identity.state.ScenarioState;
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.generoso.ft.identity.util.JsonMapper.fromJson;
 import static java.util.Arrays.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ResponseStepDefinitions {
 
     private final ScenarioState scenarioState;
-    private final JsonMapper jsonMapper;
 
     @Then("the response status code should be {int}")
     public void theResponseCode(int expectedResponseCode) {
@@ -27,7 +25,7 @@ public class ResponseStepDefinitions {
     @And("error validation response should contain status {int} and error {} and field {} and field message {}")
     public void errorValidationResponseShouldMatch(int status, String error, String field, String fieldMessage) {
         var response = scenarioState.getActualResponse();
-        var validationObj = jsonMapper.fromJson(response.body(), ValidationErrorDetails.class);
+        var validationObj = fromJson(response.body(), ValidationErrorDetails.class);
 
         var fieldSplit = field.split(",");
         var fieldMessageSplit = fieldMessage.split(",");
@@ -43,7 +41,7 @@ public class ResponseStepDefinitions {
     @And("error response should contain status {int} with error {} and detail {}")
     public void errorResponseShouldMatch(int status, String error, String detail) {
         var response = scenarioState.getActualResponse();
-        var errorDetail = jsonMapper.fromJson(response.body(), ErrorDetail.class);
+        var errorDetail = fromJson(response.body(), ErrorDetail.class);
 
         assertThat(errorDetail.getStatus()).isEqualTo(status);
         assertThat(errorDetail.getError()).isEqualTo(error);
