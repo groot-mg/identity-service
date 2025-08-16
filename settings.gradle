@@ -1,4 +1,4 @@
 rootProject.name = 'identity-service'
-include 'identity-app'
-include 'identity-ft'
+include 'app'
+include 'ft'
 

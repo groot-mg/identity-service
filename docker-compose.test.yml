@@ -13,10 +13,10 @@ services:
     volumes:
       - ./mocks/mappings:/home/wiremock/mappings
 
-  identity-service:
+  app:
     extends:
       file: docker-compose.app.yml
-      service: identity-service
+      service: app
     depends_on:
       mocks:
         condition: service_healthy

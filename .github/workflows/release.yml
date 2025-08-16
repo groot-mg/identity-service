@@ -30,10 +30,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
-        run: ./gradlew :identity-app:build -x test --no-daemon
+        run: ./gradlew :app:build -x test --no-daemon
 
       - name: Generate release version
-        run: ./gradlew :identity-app:release --no-daemon
+        run: ./gradlew :app:release --no-daemon
 
       - name: Set repository basename
         id: set-basename
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
-          path: identity-app/build/libs/${{ env.REPO_BASENAME }}.jar
+          path: app/build/libs/${{ env.REPO_BASENAME }}.jar
 
   publish-docker-image:
     if: github.ref == 'refs/heads/main'
@@ -65,7 +65,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: identity-app/build/libs/
+          path: app/build/libs/
 
       - name: Get version
         id: get_version

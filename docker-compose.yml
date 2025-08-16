@@ -30,10 +30,10 @@ services:
     environment:
       - KEYCLOAK_HOST=http://keycloak:8080
 
-  identity-service:
+  app:
     extends:
       file: docker-compose.app.yml
-      service: identity-service
+      service: app
     depends_on:
       keycloak-healthcheck:
         condition: service_completed_successfully
