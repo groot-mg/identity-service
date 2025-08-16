@@ -1,8 +1,6 @@
 name: Sonarcloud analyses
 
 on:
-  schedule:
-    - cron: '0 12 1 */1 *'
   push:
     branches: [ main ]
     paths:
@@ -11,6 +9,8 @@ on:
       - 'gradle.properties'
       - 'identity-app/**'
       - 'identity-ft/**'
+      - 'docker-compose.app.yml'
+      - 'docker-compose.test.yml'
       - '.github/workflows/sonarcloud-analyses.yml'
 
 jobs:

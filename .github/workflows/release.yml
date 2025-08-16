@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+
+jobs:
+  build-and-release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build
+        run: ./gradlew :identity-app:build -x test --no-daemon
+
+      - name: Generate release version
+        run: ./gradlew :identity-app:release --no-daemon
+
+      - name: Set repository basename
+        id: set-basename
+        run: echo "REPO_BASENAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: identity-app/build/libs/${{ env.REPO_BASENAME }}.jar
+
+  publish-docker-image:
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Download JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: app-jar
+          path: identity-app/build/libs/
+
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION=$(./gradlew app:currentVersion -q --console=plain | grep -oP '(?<=Project version: )[\d\.]+')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set repository basename
+        id: set-basename
+        run: echo "REPO_BASENAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/groot-mg/release/${{ env.REPO_BASENAME }}
+          tags: |
+            type=semver,prefix=v,pattern={{raw}},value=${{ env.VERSION }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: app/
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  create-github-release:
+    if: github.ref == 'refs/heads/main'
+    needs: publish-docker-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fetch tags
+        run: git fetch --tags
+
+      - name: Get latest tag
+        id: latest_tag
+        run: echo "LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
+
+      - name: Log the version for release
+        run: echo "The latest tag is ${{ env.LATEST_TAG }}"
+
+      - name: Checkout code at tag
+        run: git checkout ${{ env.LATEST_TAG }}
+
+      - name: Create release
+        uses: elgohr/Github-Release-Action@v5
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: ${{ env.LATEST_TAG }}
