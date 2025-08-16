@@ -13,15 +13,21 @@ import java.util.List;
 @Component
 public class MetricsClientRequest {
 
-    @Autowired
-    private PrivateRequestTemplate.PrivateMetricsRequestTemplate privateMetricsRequestTemplate;
+    private final PrivateRequestTemplate.MetricsRequestTemplate metricsRequestTemplate;
+    private final Client client;
 
     @Autowired
-    private Client client;
+    public MetricsClientRequest(
+            PrivateRequestTemplate.MetricsRequestTemplate metricsRequestTemplate,
+            Client client
+    ) {
+        this.metricsRequestTemplate = metricsRequestTemplate;
+        this.client = client;
+    }
 
     public List<MetricFamily> collectMetrics() {
         try {
-            var response = client.execute(privateMetricsRequestTemplate);
+            var response = client.execute(metricsRequestTemplate);
             return parsePrometheusMetrics(response.body());
         } catch (Exception e) {
             throw new RuntimeException("Unable to gather metrics", e);

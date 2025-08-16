@@ -16,10 +16,10 @@ public class PrivateRequestTemplate {
 
     @Component
     @Qualifier("private")
-    public static class PrivateHealthRequestTemplate extends RequestTemplate {
+    public static class HealthRequestTemplate extends RequestTemplate {
 
         @Autowired
-        public PrivateHealthRequestTemplate(
+        public HealthRequestTemplate(
                 @Value("${service.host}") String host,
                 @Value("${service.context-path:}") String contextPath
         ) {
@@ -34,9 +34,9 @@ public class PrivateRequestTemplate {
 
     @Component
     @Qualifier("private")
-    public static class PrivateInfoRequestTemplate extends RequestTemplate {
+    public static class InfoRequestTemplate extends RequestTemplate {
 
-        public PrivateInfoRequestTemplate(
+        public InfoRequestTemplate(
                 @Value("${service.host}") String host,
                 @Value("${service.context-path:}") String contextPath
         ) {
@@ -51,9 +51,9 @@ public class PrivateRequestTemplate {
 
     @Component
     @Qualifier("private")
-    public static class PrivateMetricsRequestTemplate extends RequestTemplate {
+    public static class MetricsRequestTemplate extends RequestTemplate {
 
-        public PrivateMetricsRequestTemplate(
+        public MetricsRequestTemplate(
                 @Value("${service.host}") String host,
                 @Value("${service.context-path:}") String contextPath
         ) {
@@ -68,6 +68,57 @@ public class PrivateRequestTemplate {
         @Override
         public Map<String, String> defaultHeaders() {
             return new HashMap<>();
+        }
+    }
+
+    @Component
+    @Qualifier("private")
+    public static class OpenApiDocsRequestTemplate extends RequestTemplate {
+
+        public OpenApiDocsRequestTemplate(
+                @Value("${service.host}") String host,
+                @Value("${service.context-path:}") String contextPath
+        ) {
+            super(host, contextPath);
+        }
+
+        @Override
+        public Endpoint getEndpoint() {
+            return Endpoint.OPEN_API_DOCS;
+        }
+    }
+
+    @Component
+    @Qualifier("private")
+    public static class OpenApiUIRequestTemplate extends RequestTemplate {
+
+        public OpenApiUIRequestTemplate(
+                @Value("${service.host}") String host,
+                @Value("${service.context-path:}") String contextPath
+        ) {
+            super(host, contextPath);
+        }
+
+        @Override
+        public Endpoint getEndpoint() {
+            return Endpoint.OPEN_API_UI;
+        }
+    }
+
+    @Component
+    @Qualifier("private")
+    public static class OpenApiSwaggerHtmlIndexRequestTemplate extends RequestTemplate {
+
+        public OpenApiSwaggerHtmlIndexRequestTemplate(
+                @Value("${service.host}") String host,
+                @Value("${service.context-path:}") String contextPath
+        ) {
+            super(host, contextPath);
+        }
+
+        @Override
+        public Endpoint getEndpoint() {
+            return Endpoint.OPEN_API_SWAGGER_HTML_INDEX;
         }
     }
 }

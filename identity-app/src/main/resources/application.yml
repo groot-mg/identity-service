@@ -46,8 +46,8 @@ springdoc:
     groups:
       enabled: true
     enabled: true
-    path: /api-docs
-  show-actuator: false # there is a bug on security library with actuator and gateway together
+    path: /private/api-docs
+  show-actuator: false
   swagger-ui:
     enabled: true
-    path: /swagger
+    path: /private/swagger

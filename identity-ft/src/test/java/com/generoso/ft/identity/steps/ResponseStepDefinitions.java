@@ -8,6 +8,8 @@ import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 import static com.generoso.ft.identity.util.JsonMapper.fromJson;
 import static java.util.Arrays.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,5 +49,13 @@ public class ResponseStepDefinitions {
         assertThat(errorDetail.getError()).isEqualTo(error);
         assertThat(errorDetail.getDetail()).isEqualTo(detail);
         assertThat(errorDetail.getTimestamp()).isNotNull();
+    }
+
+    @And("the response header {word} contains the value {word}")
+    public void errorResponseHeaderContainsTheValue(String headerName, String headerValue) {
+        var response = scenarioState.getActualResponse();
+        Optional<String> value = response.headers().firstValue(headerName);
+        assertThat(value).isPresent();
+        assertThat(value).contains(headerValue);
     }
 }

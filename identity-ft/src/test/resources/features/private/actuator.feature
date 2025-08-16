@@ -10,6 +10,7 @@ Feature: Checking Identity app actuator endpoints return expected outputs
     And the health response body of the message should have the status "UP"
     And health components should contain the status UP:
       | keycloak |
+      | ping     |
     And metrics are gathered again
     And the application_responses_total metric for endpoint PRIVATE_HEALTH_CHECK with status response code 200 has incremented by 1
 

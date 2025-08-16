@@ -8,6 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum Endpoint {
 
+    OPEN_API_DOCS("/identity/private/api-docs", "GET"),
+    OPEN_API_UI("/identity/private/swagger", "GET"),
+    OPEN_API_SWAGGER_HTML_INDEX("/identity/private/swagger-ui/index.html", "GET"),
     PRIVATE_INFO("/identity/private/info", "GET"),
     PRIVATE_HEALTH_CHECK("/identity/private/health", "GET"),
     PRIVATE_METRICS("/identity/private/metrics", "GET"),
