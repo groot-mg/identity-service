@@ -1,7 +1,7 @@
 services:
-  app:
-    container_name: app
-    build: app
+  identity-service:
+    container_name: identity-app
+    build: identity-app
     restart: always
     ports:
       - "8181:8181"

@@ -9,8 +9,8 @@ on:
       - 'gradle/**'
       - '**.gradle'
       - 'gradle.properties'
-      - 'app/**'
-      - 'ft/**'
+      - 'identity-app/**'
+      - 'identity-ft/**'
       - 'mocks/**'
       - 'docker-compose.app.yml'
       - 'docker-compose.test.yml'
@@ -21,8 +21,8 @@ on:
       - 'gradle/**'
       - '**.gradle'
       - 'gradle.properties'
-      - 'app/**'
-      - 'ft/**'
+      - 'identity-app/**'
+      - 'identity-ft/**'
       - 'mocks/**'
       - 'docker-compose.app.yml'
       - 'docker-compose.test.yml'
@@ -54,7 +54,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build + unit tests
-        run: ./gradlew :app:build
+        run: ./gradlew :identity-app:build
 
       - name: Upload unit tests report
         if: always()
@@ -62,7 +62,7 @@ jobs:
         with:
           name: unit-tests-report
           path: |
-            app/build/reports/tests/test/**/*
+            identity-app/build/reports/tests/test/**/*
 
       - name: Set repository basename
         id: set-basename
@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
-          path: app/build/libs/${{ env.REPO_BASENAME }}.jar
+          path: identity-app/build/libs/${{ env.REPO_BASENAME }}.jar
 
   functional-tests:
     needs: build-and-unit-tests
@@ -91,7 +91,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: app/build/libs/
+          path: identity-app/build/libs/
 
       - name: Start docker containers (docker-compose)
         run: docker compose -f docker-compose.test.yml up -d
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Run functional tests
-        run: ./gradlew :ft:cucumber --no-daemon
+        run: ./gradlew :identity-ft:cucumber --no-daemon
 
       - name: Archive Cucumber test reports
         if: always()
@@ -122,7 +122,7 @@ jobs:
         with:
           name: cucumber-tests-report
           path: |
-            ft/reports/cucumber-report.html
+            identity-ft/reports/cucumber-report.html
 
       - name: Print Docker container logs
         run: |
@@ -150,7 +150,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: app/build/libs/
+          path: identity-app/build/libs/
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -175,7 +175,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: app/
+          context: identity-app/
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

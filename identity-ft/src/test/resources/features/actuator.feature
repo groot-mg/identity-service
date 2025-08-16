@@ -27,7 +27,7 @@ Feature: Checking Identity app actuator endpoints return expected outputs
     When the request is sent
     Then the response status code should be 200
     And it should return build information containing the following keys and values:
-      | artifact | app              |
+      | artifact | identity-app     |
       | name     | identity-service |
       | group    | com.generoso     |
     And the response body contains:
