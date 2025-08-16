@@ -1,3 +1,8 @@
+server:
+  port: 8181
+  servlet:
+    contextPath: /identity
+
 spring:
   jmx:
     enable: false
@@ -6,11 +11,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSS
     time-zone: UTC
-
-server:
-  port: 8181
-  servlet:
-    contextPath: /identity
 
 keycloak:
   server-url: ${KEYCLOAK_URL:http://localhost:8180}
@@ -33,3 +33,21 @@ management:
   health:
     diskspace:
       enabled: false
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      slo:
+        http.server.requests: 5ms, 25ms, 50ms, 100ms, 150ms, 200ms, 250ms, 300ms, 400ms, 500ms, 600ms, 700ms, 800ms, 900ms, 1000ms, 2000ms, 3000ms, 4000ms, 5000ms
+        http.client.requests: 5ms, 25ms, 50ms, 100ms, 150ms, 200ms, 250ms, 300ms, 400ms, 500ms, 600ms, 700ms, 800ms, 900ms, 1000ms, 2000ms, 3000ms, 4000ms, 5000ms
+
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    enabled: true
+    path: /api-docs
+  show-actuator: false # there is a bug on security library with actuator and gateway together
+  swagger-ui:
+    enabled: true
+    path: /swagger

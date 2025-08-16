@@ -4,18 +4,23 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * For local environment: <a href="http://localhost:8181/identity/swagger-ui/index.html">here</a>
+ * For local environment: <a href="http://localhost:8181/identity/swagger">here</a>
  */
 @Configuration
 public class OpenApiConfiguration {
 
-    @Value("${info.app.version:unknown}")
-    private String version;
+    private final BuildProperties buildProperties;
+
+    @Autowired
+    public OpenApiConfiguration(BuildProperties buildProperties) {
+        this.buildProperties = buildProperties;
+    }
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -26,7 +31,7 @@ public class OpenApiConfiguration {
         return new Info()
                 .title("Identity Service")
                 .description("Spring Boot Identity Service")
-                .version(version)
+                .version(buildProperties.getVersion())
                 .contact(apiContact())
                 .license(apiLicence());
     }

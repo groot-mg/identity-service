@@ -9,7 +9,7 @@ sonarqubeVersion = '6.2.0.5505'
 
 ## Library versions
 keycloakAdminClientVersion = '26.0.6'
-springDocVersion = '1.7.0'
+springDocVersion = '2.8.9'
 
 ## Test Libraries
 cucumberVersion = '7.27.0'
@@ -37,7 +37,7 @@ micrometer-prometheus = { module = 'io.micrometer:micrometer-registry-prometheus
 
 # non-managed by spring management plugin
 keycloak-admin-client = { module = 'org.keycloak:keycloak-admin-client', version.ref = 'keycloakAdminClientVersion'}
-springdoc-openapi = { module = 'org.springdoc:springdoc-openapi-ui', version.ref = 'springDocVersion' }
+springdoc-openapi = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springDocVersion' }
 
 # Test libraries
 spring-boot-starter-test = { module = 'org.springframework.boot:spring-boot-starter-test' }
