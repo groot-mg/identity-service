@@ -5,7 +5,7 @@ springDependencyManagementVersion = '1.1.7'
 gitPropertiesVersion = '2.5.2'
 axionReleaseVersion = '1.20.1'
 lombokVersion = '8.14.2'
-sonarqubeVersion = '6.2.0.5505'
+sonarqubeVersion = '6.3.0.5676'
 
 ## Library versions
 keycloakAdminClientVersion = '26.0.6'
