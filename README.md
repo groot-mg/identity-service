@@ -17,7 +17,7 @@ See the full [documentation](https://github.com/groot-mg/docs) to understand how
 ### Build
 Build with gradle (build + unit tests):
 ```
-./gradlew build
+./gradlew clean build
 ```
 
 ### Functional tests

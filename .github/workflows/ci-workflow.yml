@@ -125,6 +125,7 @@ jobs:
             identity-ft/reports/cucumber-report.html
 
       - name: Print Docker container logs
+        if: always()
         run: |
           container_ids=$(docker ps --format '{{.ID}}')
 
