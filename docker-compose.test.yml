@@ -10,6 +10,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    command: [ "--verbose" ]
     volumes:
       - ./mocks/mappings:/home/wiremock/mappings
 
