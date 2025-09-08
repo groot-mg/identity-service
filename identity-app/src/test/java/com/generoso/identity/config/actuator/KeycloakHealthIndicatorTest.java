@@ -17,6 +17,7 @@ class KeycloakHealthIndicatorTest {
 
     @BeforeEach
     void setUp() {
+        when(keycloak.isClosed()).thenReturn(false);
         when(keycloak.tokenManager()).thenReturn(tokenManager);
     }
 
@@ -36,6 +37,16 @@ class KeycloakHealthIndicatorTest {
         Health health = healthIndicator.health();
 
         verify(tokenManager).grantToken();
+        assertEquals(Health.down().build().getStatus(), health.getStatus());
+    }
+
+    @Test
+    void healthDownWhenKeycloakConnectionIsClosed() {
+        when(keycloak.isClosed()).thenReturn(true);
+
+        Health health = healthIndicator.health();
+
+        verify(keycloak).isClosed();
         assertEquals(Health.down().build().getStatus(), health.getStatus());
     }
 }

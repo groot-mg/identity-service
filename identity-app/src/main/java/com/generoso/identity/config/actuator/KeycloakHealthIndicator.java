@@ -17,10 +17,15 @@ public class KeycloakHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
+            if (keycloak.isClosed()) {
+                log.error("Unexpected keycloak client closed");
+                return Health.down().build();
+            }
+
             keycloak.tokenManager().grantToken();
             return Health.up().build();
         } catch (Exception ex) {
-            log.error("Keycloak healthcheck error: {}", ex.getMessage());
+            log.error("Keycloak healthcheck error: {}", ex.getMessage(), ex);
             return Health.down().build();
         }
     }
